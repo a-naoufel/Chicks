@@ -1,6 +1,6 @@
 public class App {
     public static void main(String[] args){
-        
-        System.out.println("hello world");     
+       Game game = new Game();
+       View view = new View(game); 
     }
 }
