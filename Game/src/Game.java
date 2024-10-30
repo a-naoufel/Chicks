@@ -10,11 +10,14 @@ public class Game implements IObsovable{
         poussins = new ArrayList<>();
         obsovers = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            poussins.add(new Poussin());
-        }
+        //for (int i = 0; i < 10; i++) {
+            poussins.add(new Poussin(10,10));
+            poussins.add(new Poussin(10, 40));
+        //}
         initialGame();
     }
+
+    
     private void initialGame(){
     
         Square emptySquare = new EmptySquare();
@@ -36,6 +39,21 @@ public class Game implements IObsovable{
                 grid[i][j] = obstacleSquare;
             }
         }
+       
+        }
+
+        public void updateGame() {
+            for (Poussin poussin : poussins) {
+                poussin.Move(grid); 
+            }
+            notifyObservers(); // Update view after all moves
+        }
+        
+        
+    
+
+    public ArrayList<Poussin> getPoussins(){
+        return poussins;
     }
 
     public void addObserver(IObsover o){
