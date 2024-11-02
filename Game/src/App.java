@@ -6,7 +6,7 @@ public class App {
 
        new Thread(() -> {
         while (true) {
-            game.updateGame();;
+            game.updateGame();
             try {
                 Thread.sleep(200); // adjust for game speed
             } catch (InterruptedException e) {
