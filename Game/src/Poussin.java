@@ -12,8 +12,8 @@ public class Poussin {
     public int fallcoun = 0;
 
     public Poussin(Game game) {
-        x = 1;
-        y = 2;
+        x = game.getEntry().getX();
+        y = game.getEntry().getY();
         isAlive = true;
         direction = 1;
         this.game = game;
