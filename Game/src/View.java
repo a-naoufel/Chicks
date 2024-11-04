@@ -33,7 +33,7 @@ public class View extends JComponent implements IObsover {
             g.setColor(poussin.getColor());
             g.fillOval((frame.getWidth()*poussin.getX())/50, (frame.getHeight()-35) * poussin.getY()/ 24 , 20, 20);
             System.out.println("Poussin "+ poussin.id +" x:" + poussin.getX() + " Y: " + poussin.getY());
-            //g.fillOval((frame.getWidth()*poussin.getX())/200, (frame.getHeight()*poussin.getY()-100)/100, 30, 30);
+            //g.fillOval((frame.getWidth()*poussin.getX())/50, (frame.getHeight()-35*poussin.getY())/24, 30, 30);
             //g.fillPolygon(poussin.getY()-2, poussin.getY()+2, poussin.getY());
         }
     }

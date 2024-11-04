@@ -12,7 +12,7 @@ public class Game implements IObsovable{
 
         //for (int i = 0; i < 10; i++) {
             poussins.add(new Poussin(1,2,1));
-            poussins.add(new Poussin(5, 4,2));
+            poussins.add(new Poussin(1, 1,2));
         //}
         initialGame();
     }
@@ -23,6 +23,7 @@ public class Game implements IObsovable{
         Square emptySquare = new EmptySquare();
         Square lavaSquare = new LavaSquare();
         Square obstacleSquare = new ObstacleSquare();
+        Square entry=new Entry();
 
         for(int i = 0 ;i<50;i++){
             for(int j = 0;j<24;j++){
@@ -44,6 +45,7 @@ public class Game implements IObsovable{
         grid[49][19]=obstacleSquare;
         grid[25][20]=obstacleSquare;
         grid[49][20]=obstacleSquare;
+        grid[1][2]=entry;
 
        
         }
