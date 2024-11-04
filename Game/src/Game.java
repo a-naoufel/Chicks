@@ -28,8 +28,8 @@ public class Game implements IObsovable {
             grid = (Square[][]) oos.readObject();
 
         } catch (Exception e) {
-            initialGame();
         }
+        initialGame();
         addPoussins.start();
     }
 

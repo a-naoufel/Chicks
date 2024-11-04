@@ -9,6 +9,7 @@ public class Poussin {
     private Color PoussColor = Color.YELLOW;
     public int id;
     public Game game;
+    public int fallcoun = 0;
 
     public Poussin(Game game) {
         x = 1;
@@ -78,6 +79,10 @@ public class Poussin {
             return;
         }
         if (!fall()) {
+            if (fallcoun > 5)
+                this.isAlive = false;
+            else
+                fallcoun = 0;
 
             if (canMouveX()) {
                 takeStepX();
@@ -90,6 +95,8 @@ public class Poussin {
                 moveup();
             }
 
+        } else {
+            fallcoun++;
         }
 
     }

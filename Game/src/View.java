@@ -21,15 +21,19 @@ public class View extends JComponent implements IObsover {
     }
 
     public void drowPoussin(Graphics g, Poussin poussin) {
-        g.setColor(poussin.getColor());
-        g.fillOval((frame.getWidth() * poussin.getX()) / game.gridSizeX(), (frame.getHeight() - 35) * poussin.getY() / game.gridSizeY(), 20, 20);
+        if (poussin.isAlive()) {
+            g.setColor(poussin.getColor());
+            g.fillOval((frame.getWidth() * poussin.getX()) / game.gridSizeX(),
+                    (frame.getHeight() - 35) * poussin.getY() / game.gridSizeY(), 20, 20);
+        }
     }
 
     public void drowGrid(Graphics g) {
         for (int i = 0; i < game.gridSizeX(); i++) {
             for (int j = 0; j < game.gridSizeY(); j++) {
                 g.setColor(game.grid[i][j].getColor());
-                g.fillRect(frame.getWidth() * i / game.gridSizeX(), +(frame.getHeight() - 35) * j / game.gridSizeY(), 20, 20);
+                g.fillRect(frame.getWidth() * i / game.gridSizeX(), +(frame.getHeight() - 35) * j / game.gridSizeY(),
+                        20, 20);
             }
         }
     }
