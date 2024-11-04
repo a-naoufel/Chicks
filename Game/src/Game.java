@@ -8,21 +8,8 @@ public class Game implements IObsovable {
     public ArrayList<Poussin> poussins;
     private ArrayList<IObsover> obsovers;
 
-<<<<<<< HEAD
-    public Game() {
-        grid = new Square[50][24];
-        poussins = new ArrayList<>();
-        obsovers = new ArrayList<>();
-
-        //for (int i = 0; i < 10; i++) {
-            poussins.add(new Poussin(1,2,1));
-            poussins.add(new Poussin(1, 1,2));
-        //}
-        initialGame();
-=======
     public int gridSizeX() {
         return 50;
->>>>>>> 24f2791e7d36ea06c4ecc5b2491476da5a45def2
     }
 
     public int gridSizeY() {
@@ -68,21 +55,12 @@ public class Game implements IObsovable {
                 grid[i][j] = obstacleSquare;
             }
         }
-<<<<<<< HEAD
-        grid[0][19]=obstacleSquare;
-        grid[0][20]=obstacleSquare;
-        grid[49][19]=obstacleSquare;
-        grid[25][20]=obstacleSquare;
-        grid[49][20]=obstacleSquare;
-        grid[1][2]=entry;
-=======
         grid[0][19] = obstacleSquare;
         grid[0][20] = obstacleSquare;
         grid[49][19] = obstacleSquare;
         grid[25][20] = obstacleSquare;
         grid[26][19] = obstacleSquare;
         grid[49][20] = obstacleSquare;
->>>>>>> 24f2791e7d36ea06c4ecc5b2491476da5a45def2
 
     }
 
