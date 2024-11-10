@@ -12,6 +12,8 @@ public class Poussin {
     public int id;
     public Game game;
     public int fallcoun = 0;
+    private static int numPoussinExit=0;
+    private static int numPoussindead=0;
 
     public Poussin(int id,Game game) {
         x = game.getEntry().getX();
@@ -85,6 +87,8 @@ public class Poussin {
     public void hitExit(){
         if(game.grid[x+1][y] instanceof EmptySquare && ( this.x==game.getExit().getX() && this.y==game.getExit().getY())){
             System.out.println("poussin id"+this.id+"hit the exit");
+            numPoussinExit++;
+            System.out.println("the number of exited poussins"+ numPoussinExit);
             this.status=false;
 
         }
@@ -95,8 +99,11 @@ public class Poussin {
             return;
         }
         if (!fall()) {
-            if (fallcoun > 5)
+            if (fallcoun > 5){
                 this.isAlive = false;
+                numPoussindead++;
+            }
+                
             else
                 fallcoun = 0;
 

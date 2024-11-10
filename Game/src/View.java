@@ -37,8 +37,8 @@ public class View extends JComponent implements IObsover {
             //        ((frame.getHeight() - 35) * (poussin.getY()) / game.gridSizeY())-19, 15, 15);
             g.fillPolygon(XPoints, Ypoints, 3);
                 
-            System.out.println(frame.getWidth() * poussin.getX() / game.gridSizeX());
-            System.out.println((frame.getHeight() - 20) * poussin.getY() / game.gridSizeY());
+            //System.out.println(frame.getWidth() * poussin.getX() / game.gridSizeX());
+            //System.out.println((frame.getHeight() - 20) * poussin.getY() / game.gridSizeY());
         }
     }
 
