@@ -2,21 +2,26 @@ import java.awt.Color;
 
 public class Poussin {
     public EmptySquare emptySquare;
+    public Exit exit;
     private int x;
     private int y;
     private boolean isAlive;
+    private boolean status; //true for INTerrian,false for OUTTerrain
     private int direction;// 1: for right and -1: for left
     private Color PoussColor = Color.YELLOW;
     public int id;
     public Game game;
     public int fallcoun = 0;
 
-    public Poussin(Game game) {
+    public Poussin(int id,Game game) {
         x = game.getEntry().getX();
         y = game.getEntry().getY();
         isAlive = true;
         direction = 1;
         this.game = game;
+        this.id=id;
+        this.status=true;
+
     }
 
     public int getX() {
@@ -37,6 +42,9 @@ public class Poussin {
 
     public Color getColor() {
         return PoussColor;
+    }
+    public boolean getStatus(){
+        return status;
     }
 
     public void takeStepX() {
@@ -74,8 +82,16 @@ public class Poussin {
         }
     }
 
+    public void hitExit(){
+        if(game.grid[x+1][y] instanceof EmptySquare && ( this.x==game.getExit().getX() && this.y==game.getExit().getY())){
+            System.out.println("poussin id"+this.id+"hit the exit");
+            this.status=false;
+
+        }
+    }
+
     public void Move() {
-        if (!this.isAlive()) {
+        if (!this.isAlive()|| !this.getStatus()) {
             return;
         }
         if (!fall()) {
@@ -98,6 +114,7 @@ public class Poussin {
         } else {
             fallcoun++;
         }
+        hitExit();
 
     }
 }

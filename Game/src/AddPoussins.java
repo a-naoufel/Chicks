@@ -8,7 +8,7 @@ public class AddPoussins extends Thread{
     public void run() {
         super.run();
         for (int i = 0; i < 5; i++) {
-            game.poussins.add(new Poussin(game));
+            game.poussins.add(new Poussin(i,game));
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
