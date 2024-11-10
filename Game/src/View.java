@@ -21,7 +21,7 @@ public class View extends JComponent implements IObsover {
     }
 
     public void drowPoussin(Graphics g, Poussin poussin) {
-        if (poussin.isAlive()) {
+        if (poussin.isAlive()&& poussin.getStatus()) {
             int x1=((frame.getWidth() * poussin.getX()) / game.gridSizeX())+10;
             int x3=((frame.getWidth() * poussin.getX()) / game.gridSizeX())+10+poussin.getDirection()*12;
             int y=((frame.getHeight() - 35) * poussin.getY() / game.gridSizeY())-8  ;
@@ -50,6 +50,11 @@ public class View extends JComponent implements IObsover {
                         20, 20);
             }
         }
+        drawEntry(g);
+        drawExit(g);
+    }
+
+    public void drawEntry(Graphics g){
         g.setColor(game.getEntry().getColor());
         int x=game.getEntry().getX();
         int y=game.getEntry().getY();
@@ -58,6 +63,19 @@ public class View extends JComponent implements IObsover {
         int[] Xs={X,X+20,X+10};
         int[] Ys={Y,Y, Y+20};
         g.fillPolygon(Xs, Ys, 3);
+
+    }
+
+    public void drawExit(Graphics g){
+        g.setColor(game.getExit().getColor());
+        int x=game.getExit().getX();
+        int y=game.getExit().getY();
+        int X=frame.getWidth() * x / game.gridSizeX();
+        int Y=(frame.getHeight() - 35) * (y-1) / game.gridSizeY();
+        int[] Xs={X,X+20,X+10};
+        int[] Ys={Y,Y, Y-20};
+        g.fillPolygon(Xs, Ys, 3);
+
     }
 
     @Override

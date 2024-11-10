@@ -8,6 +8,7 @@ public class Game implements IObsovable {
     public ArrayList<Poussin> poussins;
     private ArrayList<IObsover> obsovers;
     private Entry entry;
+    private Exit exit;
 
     public int gridSizeX() {
         return 50;
@@ -19,12 +20,16 @@ public class Game implements IObsovable {
     public Entry getEntry(){
         return entry;
     }
+    public Exit getExit(){
+        return exit;
+    }
 
     public Game() {
         grid = new Square[gridSizeX()][gridSizeY()];
         poussins = new ArrayList<>();
         obsovers = new ArrayList<>();
         entry= new Entry(2, 15);
+        exit=new Exit(45, 20);
         AddPoussins addPoussins = new AddPoussins(this);
         try {
             File f = new File("saved.data");
