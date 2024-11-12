@@ -17,10 +17,12 @@ public class Game implements IObsovable {
     public int gridSizeY() {
         return 24;
     }
-    public Entry getEntry(){
+
+    public Entry getEntry() {
         return entry;
     }
-    public Exit getExit(){
+
+    public Exit getExit() {
         return exit;
     }
 
@@ -28,8 +30,8 @@ public class Game implements IObsovable {
         grid = new Square[gridSizeX()][gridSizeY()];
         poussins = new ArrayList<>();
         obsovers = new ArrayList<>();
-        entry= new Entry(2, 15);
-        exit=new Exit(45, 20);
+        entry = new Entry(2, 15);
+        exit = new Exit(45, 20);
         AddPoussins addPoussins = new AddPoussins(this);
         try {
             File f = new File("saved.data");
@@ -38,9 +40,20 @@ public class Game implements IObsovable {
             grid = (Square[][]) oos.readObject();
 
         } catch (Exception e) {
+            initialGame();
         }
-        initialGame();
         addPoussins.start();
+    }
+
+    public void start() {
+        while (true) {
+            updateGame();
+            try {
+                Thread.sleep(200); // adjust for game speed
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void initialGame() {
@@ -67,8 +80,10 @@ public class Game implements IObsovable {
         grid[0][19] = obstacleSquare;
         grid[0][20] = obstacleSquare;
         grid[49][19] = obstacleSquare;
-        grid[25][20] = obstacleSquare;
-        grid[26][19] = obstacleSquare;
+
+        grid[2][20] = lavaSquare;
+        grid[25][20] = lavaSquare;
+        grid[26][19] = lavaSquare;
         grid[49][20] = obstacleSquare;
 
     }
