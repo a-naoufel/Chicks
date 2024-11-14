@@ -1,14 +1,11 @@
 import java.awt.Color;
+import java.awt.Graphics;
 
 public class Poussin {
-    public EmptySquare emptySquare;
-    public Exit exit;
     private int x;
     private int y;
     private boolean isAlive;
-    private boolean status; // true for INTerrian,false for OUTTerrain
     private int direction;// 1: for right and -1: for left
-    private Color PoussColor = Color.YELLOW;
     public int id;
     public Game game;
     public int fallcoun = 0;
@@ -23,8 +20,6 @@ public class Poussin {
         direction = 1;
         this.game = game;
         this.id = id;
-        this.status = true;
-
     }
 
     public static void displayCounter() {
@@ -32,8 +27,13 @@ public class Poussin {
         System.out.println("Poussin sortie: " + numPoussinExit);
         System.out.println("Poussin mort: " + numPoussindead + "\n");
     }
-    public static void add(){
-        numPoussin ++;
+
+    public static boolean endGame() {
+        return numPoussin == numPoussinExit + numPoussindead;
+    }
+
+    public static void add() {
+        numPoussin++;
     }
 
     public int getX() {
@@ -52,20 +52,10 @@ public class Poussin {
         return direction;
     }
 
-    public Color getColor() {
-        return PoussColor;
-    }
-
-    public boolean getStatus() {
-        return status;
-    }
-
     public void takeStepX() {
         if ((x + direction) >= 0 & (x + direction) < game.gridSizeX()) {
             x += direction;
         }
-        if (game.grid[x][y] instanceof LavaSquare)
-            killpoussin();
     }
 
     public void killpoussin() {
@@ -75,17 +65,17 @@ public class Poussin {
     }
 
     public boolean canMouveX() {
-        return game.grid[this.x + direction][this.y] instanceof EmptySquare;
+        return !(game.grid[this.x + direction][this.y] instanceof ObstacleSquare);
     }
 
     public boolean obstistical() {
-        return !(game.grid[this.x + direction][this.y - 1] instanceof EmptySquare)
-                | !(game.grid[this.x][this.y - 1] instanceof EmptySquare);
+        return (game.grid[this.x + direction][this.y - 1] instanceof ObstacleSquare)
+                &&(game.grid[this.x][this.y - 1] instanceof ObstacleSquare);
     }
 
     public boolean fall() {
         if (y < game.gridSizeY()) {
-            if (game.grid[x][y + 1] instanceof EmptySquare) {
+            if (!(game.grid[x][y + 1] instanceof ObstacleSquare)) {
                 y++;
                 return true;
             }
@@ -103,46 +93,39 @@ public class Poussin {
         }
     }
 
+ 
+
     public void hitExit() {
-        if (game.grid[x + 1][y] instanceof EmptySquare
-                && (this.x == game.getExit().getX() && this.y == game.getExit().getY())) {
+        
             System.out.println("poussin id " + this.id + " hit the exit");
             numPoussinExit++;
             displayCounter();
-            this.status = false;
+            isAlive = false;
 
-        }
+        
     }
 
     public void Move() {
-        if (!this.isAlive() || !this.getStatus()) {
+        if (!isAlive()) {
             return;
         }
-        if (!fall()) {
-            if (fallcoun > 5) {
-                killpoussin();
-            }
+        game.grid[x][y].handalePoussin(this);
 
-            else
-                fallcoun = 0;
-            if (game.grid[x][y + 1] instanceof LavaSquare)
-                killpoussin();
+    }
 
-            if (canMouveX()) {
-                takeStepX();
-
-            } else if (obstistical()) {
-                takeOthreDirction();
-
-            } else {
-                takeStepX();
-                moveup();
-            }
-
-        } else {
-            fallcoun++;
+    public void draw(Graphics g, View view) {
+        if (isAlive) {
+            int x1 = ((view.frame.getWidth() * getX()) / game.gridSizeX()) + 10;
+            int x3 = ((view.frame.getWidth() * getX()) / game.gridSizeX()) + 10 + getDirection() * 12;
+            int y = ((view.frame.getHeight() - 35) * getY() / game.gridSizeY()) - 8;
+            int[] XPoints = { x1, x1, x3 };
+            int[] Ypoints = { y - 5, y + 5, y };
+            g.setColor(Color.YELLOW);
+            g.fillOval((view.frame.getWidth() * getX()) / game.gridSizeX(),
+                    (view.frame.getHeight() - 35) * getY() / game.gridSizeY(), 20, 20);
+            g.fillOval(((view.frame.getWidth() * getX()) / game.gridSizeX()) + 3,
+                    ((view.frame.getHeight() - 35) * getY() / game.gridSizeY()) - 14, 15, 15);
+            g.fillPolygon(XPoints, Ypoints, 3);
         }
-        hitExit();
-
     }
 }
