@@ -3,12 +3,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-public class Main {
+public class SaveLeval {
     public static void main(String[] args) throws IOException {
         Game game = new Game();
-        File f = new File("saved.data");
+        game.defaultGame();
+        File f = new File("leval1.data");
         FileOutputStream fos = new FileOutputStream(f);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(game.grid);
+        oos.close();
     }
 }
