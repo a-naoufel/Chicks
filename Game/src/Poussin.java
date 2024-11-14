@@ -65,12 +65,11 @@ public class Poussin {
     }
 
     public boolean canMouveX() {
-        return !(game.grid[this.x + direction][this.y] instanceof ObstacleSquare);
+        return !((game.grid[this.x + direction][this.y] instanceof ObstacleSquare)||(game.grid[this.x + direction][this.y - 1] instanceof ObstacleSquare));
     }
 
     public boolean obstistical() {
-        return (game.grid[this.x + direction][this.y - 1] instanceof ObstacleSquare)
-                &&(game.grid[this.x][this.y - 1] instanceof ObstacleSquare);
+        return (game.grid[this.x + direction][this.y - 1] instanceof ObstacleSquare);
     }
 
     public boolean fall() {
@@ -109,6 +108,9 @@ public class Poussin {
         if (!isAlive()) {
             return;
         }
+        if(game.grid[x][y-1] instanceof LavaSquare)
+            killpoussin();
+        
         game.grid[x][y].handalePoussin(this);
 
     }

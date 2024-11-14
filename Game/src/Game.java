@@ -106,18 +106,18 @@ public class Game implements IObsovable {
         grid[0][20] = obstacleSquare;
         grid[49][19] = obstacleSquare;
 
-        grid[25][20] = lavaSquare;
+        grid[25][20] = obstacleSquare;
         grid[26][19] = obstacleSquare;
         grid[49][20] = obstacleSquare;
         grid[entry.getX()][entry.getY()] = entry;
-        grid[entry.getX()][20] = lavaSquare;
+        // grid[entry.getX()][20] = lavaSquare;
         grid[45][20] = new Exit();
     }
 
     public void initialGame() {
         // laoding the game grid form a saved.data
         try {
-            File f = new File("leval.data");
+            File f = new File("leval1.data");
             FileInputStream fin = new FileInputStream(f);
             ObjectInputStream oos = new ObjectInputStream(fin);
             grid = (Cell[][]) oos.readObject();
