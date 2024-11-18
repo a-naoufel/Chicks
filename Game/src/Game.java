@@ -106,7 +106,7 @@ public class Game implements IObsovable {
         grid[0][20] = obstacleSquare;
         grid[49][19] = obstacleSquare;
 
-        grid[25][20] = obstacleSquare;
+        //grid[25][20] = obstacleSquare;
         grid[26][19] = obstacleSquare;
         grid[49][20] = obstacleSquare;
         grid[entry.getX()][entry.getY()] = entry;
