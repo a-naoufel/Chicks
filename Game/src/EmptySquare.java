@@ -1,9 +1,10 @@
 import java.awt.Color;
 
 public class EmptySquare extends Cell {
-    public EmptySquare(){
+    public EmptySquare() {
         color = Color.BLUE;
     }
+
     @Override
     public void handalePoussin(Poussin p) {
         if (!p.fall()) {
@@ -13,13 +14,11 @@ public class EmptySquare extends Cell {
 
             else
                 p.fallcoun = 0;
-
-            if (p.canMouveX()) {
-                p.takeStepX();
-
-            } else if (p.obstistical()) {
+            if (p.obstistical()) {
                 p.takeOthreDirction();
 
+            } else if (p.canMouveX()) {
+                p.takeStepX();
             } else {
                 p.takeStepX();
                 p.moveup();
