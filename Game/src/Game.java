@@ -106,19 +106,11 @@ public class Game implements IObsovable {
         grid[0][20] = obstacleSquare;
         grid[49][19] = obstacleSquare;
 
-<<<<<<< HEAD
-        //grid[25][20] = obstacleSquare;
-        grid[26][19] = obstacleSquare;
-        grid[49][20] = obstacleSquare;
-        grid[entry.getX()][entry.getY()] = entry;
-        //grid[entry.getX()][20] = lavaSquare;
-=======
         grid[25][20] = obstacleSquare;
         grid[26][19] = obstacleSquare;
         grid[49][20] = obstacleSquare;
         grid[entry.getX()][entry.getY()] = entry;
         // grid[entry.getX()][20] = lavaSquare;
->>>>>>> 295ec5223d7ce312c68f7b2c067a52e730b3ed73
         grid[45][20] = new Exit();
     }
 

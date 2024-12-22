@@ -9,7 +9,7 @@ public class View extends JComponent implements IObsover {
 
     public View(Game game) {
         this.game = game;
-        frame = new JFrame("JavaGame");
+        frame = new JFrame("Penguins");
         frame.setDefaultCloseOperation(0);
         frame.setSize(1000, 515);
         frame.setResizable(false);
