@@ -6,6 +6,7 @@ public class Poussin {
     private int y;
     private boolean isAlive;
     private int direction;// 1: for right and -1: for left
+    private PoussinState currentState;
     public int id;
     public Game game;
     public int fallcoun = 0;
@@ -20,6 +21,11 @@ public class Poussin {
         direction = 1;
         this.game = game;
         this.id = id;
+        this.currentState=new NormalState();
+    }
+
+    public void setState(PoussinState state){
+        this.currentState = state;
     }
 
     public static void displayCounter() {
@@ -105,13 +111,14 @@ public class Poussin {
     }
 
     public void Move() {
-        if (!isAlive()) {
-            return;
-        }
-        if(game.grid[x][y-1] instanceof LavaSquare)
-            killpoussin();
+        // if (!isAlive()) {
+        //     return;
+        // }
+        // if(game.grid[x][y-1] instanceof LavaSquare)
+        //     killpoussin();
         
-        game.grid[x][y].handalePoussin(this);
+        // game.grid[x][y].handalePoussin(this);
+        currentState.move(this);
 
     }
 
