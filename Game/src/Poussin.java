@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.Graphics;
 
 public class Poussin {
@@ -13,6 +12,8 @@ public class Poussin {
     private static int numPoussinExit = 0;
     private static int numPoussindead = 0;
     private static int numPoussin = 0;
+    private long stateChangeTime;  // moment où l'état doit changer
+    private long delay = 5000; // délai avant de changer l'état, en millisecondes
 
     public Poussin(int id, Game game) {
         x = game.getEntry().getX();
@@ -22,6 +23,8 @@ public class Poussin {
         this.game = game;
         this.id = id;
         this.currentState=new NormalState();
+        this.stateChangeTime = System.currentTimeMillis() + delay; // initier l'heure de changement
+
     }
 
     public void setState(PoussinState state){
@@ -111,13 +114,10 @@ public class Poussin {
     }
 
     public void Move() {
-        // if (!isAlive()) {
-        //     return;
-        // }
-        // if(game.grid[x][y-1] instanceof LavaSquare)
-        //     killpoussin();
-        
-        // game.grid[x][y].handalePoussin(this);
+        if (System.currentTimeMillis() >= stateChangeTime) {
+            setState(new CharpentierState()); // changer d'état
+            stateChangeTime = System.currentTimeMillis() + delay; // redémarrer le délai
+        }
         currentState.move(this);
 
     }
@@ -129,12 +129,13 @@ public class Poussin {
             int y = ((view.frame.getHeight() - 35) * getY() / game.gridSizeY()) - 8;
             int[] XPoints = { x1, x1, x3 };
             int[] Ypoints = { y - 5, y + 5, y };
-            g.setColor(Color.YELLOW);
+            g.setColor(currentState.getColor());
             g.fillOval((view.frame.getWidth() * getX()) / game.gridSizeX(),
                     (view.frame.getHeight() - 35) * getY() / game.gridSizeY(), 20, 20);
             g.fillOval(((view.frame.getWidth() * getX()) / game.gridSizeX()) + 3,
                     ((view.frame.getHeight() - 35) * getY() / game.gridSizeY()) - 14, 15, 15);
             g.fillPolygon(XPoints, Ypoints, 3);
         }
+
     }
 }

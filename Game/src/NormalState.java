@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 public class NormalState implements PoussinState {
 
     @Override
@@ -9,6 +11,15 @@ public class NormalState implements PoussinState {
             poussin.killpoussin();
         
         poussin.game.grid[poussin.getX()][poussin.getY()].handalePoussin(poussin);
+        
+    }
+
+    @Override
+    public Color getColor(){
+        return Color.YELLOW;
+    }
+
+    
     }
     
-}
+
