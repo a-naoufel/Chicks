@@ -7,12 +7,12 @@ public class AddPoussins extends Thread{
     @Override
     public void run() {
         super.run();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < Poussin.numTotal; i++) {
             game.poussins.add(new Poussin(i,game));
             Poussin.add();
             Poussin.displayCounter();
             try {
-                Thread.sleep(1000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -23,7 +23,7 @@ public class Game implements IObsovable {
     }
 
     public Game() {
-        grid = new Cell[gridSizeX()][gridSizeY()];
+        grid = new Cell[gridSizeX()+2][gridSizeY()+2];
         poussins = new ArrayList<>();
         obsovers = new ArrayList<>();
         entry = new Entry(2, 15);

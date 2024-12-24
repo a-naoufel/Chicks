@@ -1,25 +1,16 @@
 import java.awt.Color;
 
-public class NormalState implements PoussinState {
+public class NormalState extends PoussinState {
 
     @Override
     public void move(Poussin poussin) {
-        if (!poussin.isAlive()) {
-            return;
-        }
-        if(poussin.game.grid[poussin.getX()][poussin.getY()-1] instanceof LavaSquare)
-            poussin.killpoussin();
-        
         poussin.game.grid[poussin.getX()][poussin.getY()].handalePoussin(poussin);
-        
+        super.move(poussin);
     }
 
     @Override
-    public Color getColor(){
+    public Color getColor() {
         return Color.YELLOW;
     }
 
-    
-    }
-    
-
+}

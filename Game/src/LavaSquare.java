@@ -1,6 +1,6 @@
 import java.awt.Color;
 
-public class LavaSquare extends Cell {
+public class LavaSquare extends Cell implements ObstacleIndestructible {
     public LavaSquare(){
         color = Color.RED;
     }

@@ -12,6 +12,7 @@ public class Poussin {
     private static int numPoussinExit = 0;
     private static int numPoussindead = 0;
     private static int numPoussin = 0;
+    public static int numTotal = 4;
     private long stateChangeTime;  // moment où l'état doit changer
     private long delay = 5000; // délai avant de changer l'état, en millisecondes
 
@@ -28,6 +29,8 @@ public class Poussin {
     }
 
     public void setState(PoussinState state){
+        // game.grid[getX()][getY()] = new EmptySquare();
+        // game.grid[getX()][getY() - 1] = new EmptySquare();
         this.currentState = state;
     }
 
@@ -38,7 +41,7 @@ public class Poussin {
     }
 
     public static boolean endGame() {
-        return numPoussin == numPoussinExit + numPoussindead;
+        return numTotal == numPoussinExit + numPoussindead;
     }
 
     public static void add() {
@@ -77,7 +80,7 @@ public class Poussin {
         return !((game.grid[this.x + direction][this.y] instanceof ObstacleSquare)||(game.grid[this.x + direction][this.y - 1] instanceof ObstacleSquare));
     }
 
-    public boolean obstistical() {
+    public boolean obstisticleAhad() {
         return (game.grid[this.x + direction][this.y - 1] instanceof ObstacleSquare);
     }
 
@@ -115,7 +118,7 @@ public class Poussin {
 
     public void Move() {
         if (System.currentTimeMillis() >= stateChangeTime) {
-            setState(new CharpentierState()); // changer d'état
+            setState(new BombeurState()); // changer d'état
             stateChangeTime = System.currentTimeMillis() + delay; // redémarrer le délai
         }
         currentState.move(this);
