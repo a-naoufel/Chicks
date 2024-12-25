@@ -1,6 +1,9 @@
 import java.awt.Color;
 
 public class ForeurState extends PoussinState {
+    public ForeurState(Poussin poussin){
+        super(poussin);
+    }
 
     @Override
     public Color getColor() {
@@ -9,26 +12,18 @@ public class ForeurState extends PoussinState {
 
     @Override
     public void move(Poussin poussin) {
-        if (!poussin.isAlive()) {
-            return;
+       poussin.inCell();
+       poussin.fall();
+
+        if(! poussin.canFall()){
+            destroyRelativeCell(0, 1);
         }
 
-        if (!poussin.fall()) {
-            if (poussin.fallcoun > 5) {
-                poussin.killpoussin();
-            } else {
+    }
 
-                if (!(poussin.game.grid[poussin.getX()][poussin.getY() + 1] instanceof ObstacleIndestructible)) {
-                    poussin.game.grid[poussin.getX()][poussin.getY() + 1] = new EmptySquare();
-                    System.out.println("\n "+ (poussin.getY()+1)+ "  " +poussin.getX()+"\n");
-                }
-                poussin.fallcoun = 0;
-            }
-        } else {
-            poussin.game.grid[poussin.getX()][poussin.getY()].handalePoussin(poussin);
-            poussin.fallcoun++;
-        }
-
+    @Override
+    public void exit(Poussin poussin) {
+        poussin.setState(new NormalState(poussin));
     }
 
 }

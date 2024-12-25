@@ -1,36 +1,30 @@
 import java.awt.Color;
 
 public abstract class PoussinState {
-    public void move(Poussin p){
-        if (!p.isAlive()) {
-            return;
-        }
-        p.game.grid[p.getX()][p.getY()].handalePoussin(p);
-        if (!p.fall()) {
-            if (p.fallcoun > 5) {
-                p.killpoussin();
-            }
+    Poussin poussin;
 
-            else
-                p.fallcoun = 0;
-            if (p.obstisticleAhad()) {
-                p.takeOthreDirction();
-
-            } else if (p.canMouveX()) {
-                p.takeStepX();
-            } else {
-                p.takeStepX();
-                if (p.canMouveX()) {
-                    p.moveup();
-                }else{
-                    p.takeOthreDirction();
-                }
-            }
-
-        } else {
-            p.fallcoun++;
-        }
+    public PoussinState(Poussin poussin) {
+        this.poussin = poussin;
     }
 
+    public void move(Poussin p) {
+        p.inCell();
+        p.fall();
+    }
+
+    public abstract void exit(Poussin p);
+
     public abstract Color getColor();
+
+    public void destroyRelativeCell(int i, int j) {
+        if (!(poussin.getRelativCell(i, j) instanceof ObstacleIndestructible))
+            poussin.setRelativeCell(i, j, new EmptySquare());
+    }
+
+    public void buildRelativeCell(int i, int j) {
+        if (poussin.getRelativCell(i, j) instanceof EmptySquare) {
+            System.out.println(i + " " + j);
+            poussin.setRelativeCell(i, j, new ObstacleSquare());
+        }
+    }
 }

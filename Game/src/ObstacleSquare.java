@@ -5,7 +5,6 @@ public class ObstacleSquare extends Cell {
         color = Color.BLACK;
     }
     @Override
-    public void handalePoussin(Poussin p) {
-        p.moveup();
+    public void handale(Poussin p) {
     }
 }

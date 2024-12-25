@@ -9,7 +9,7 @@ public abstract class Cell implements Serializable {
         return color;
     }
 
-    public abstract void handalePoussin(Poussin p);
+    public abstract void handale(Poussin p);
 
     public void draw(int i, int j, Graphics g, View view) {
         g.setColor(getColor());

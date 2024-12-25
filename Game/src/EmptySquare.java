@@ -6,6 +6,6 @@ public class EmptySquare extends Cell implements ObstacleIndestructible {
     }
 
     @Override
-    public void handalePoussin(Poussin p) {
+    public void handale(Poussin p) {
     }
 }

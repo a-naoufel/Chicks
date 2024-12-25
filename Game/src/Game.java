@@ -21,6 +21,19 @@ public class Game implements IObsovable {
     public Entry getEntry() {
         return entry;
     }
+    public Cell getCell(int i,int j){
+        return grid[i][j];
+    }
+    public void setCell(int i,int j,Cell cell){
+        grid[i][j] = cell;
+    }
+    public boolean outOfBoundsX(int x){
+        return x < 0 || x >= gridSizeX();
+    }
+    public boolean outOfBoundsY(int y){
+        return y < 0 || y >= gridSizeY();
+
+    }
 
     public Game() {
         grid = new Cell[gridSizeX()+2][gridSizeY()+2];
@@ -56,7 +69,9 @@ public class Game implements IObsovable {
     }
 
     public void updateGame() {
-        for (Poussin poussin : poussins) {
+        ArrayList<Poussin> temppoussin = new ArrayList<>();
+        temppoussin.addAll(poussins);
+        for (Poussin poussin : temppoussin) {
             poussin.Move();
             notifyObservers(); // Update view after all moves
         }
@@ -129,5 +144,12 @@ public class Game implements IObsovable {
             new AddPoussins(this).start();
         }
 
+    }
+    public void addPoussin(Poussin poussin){
+        poussins.add(poussin);
+        Poussin.add();
+    }
+    public void removePoussin(Poussin poussin){
+        poussins.remove(poussin);
     }
 }

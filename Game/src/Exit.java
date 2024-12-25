@@ -15,7 +15,7 @@ public class Exit extends EmptySquare {
     }
 
     @Override
-    public void handalePoussin(Poussin p) {
+    public void handale(Poussin p) {
         p.hitExit();
     }
 

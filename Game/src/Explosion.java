@@ -5,7 +5,7 @@ public class Explosion extends EmptySquare {
         color = Color.GRAY;
     }
     @Override
-    public void handalePoussin(Poussin p) {
-        p.killpoussin();
+    public void handale(Poussin poussin) {
+        poussin.kill();
     }
 }

@@ -5,7 +5,7 @@ public class LavaSquare extends Cell implements ObstacleIndestructible {
         color = Color.RED;
     }
     @Override
-    public void handalePoussin(Poussin p) {
-        p.killpoussin();
+    public void handale(Poussin poussin) {
+        poussin.kill();
     }
 }
