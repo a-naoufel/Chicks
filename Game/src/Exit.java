@@ -7,7 +7,7 @@ public class Exit extends Cell implements ObstacleIndestructible{
         super.draw(i, j, g, view);
         g.setColor(Color.YELLOW);
         int X = view.getWidth() * i / view.game.gridSizeX();
-        int Y = (view.getHeight() ) * (j - 1) / view.game.gridSizeY();
+        int Y = view.getHeight()  * (j - 1) / view.game.gridSizeY();
         int[] Xs = { X, X + 20, X + 10 };
         int[] Ys = { Y, Y, Y - 20 };
         g.fillPolygon(Xs, Ys, 3);

@@ -38,6 +38,7 @@ public class Poussin {
     }
 
     public void setState(PoussinState state) {
+        state.setPoussin(this);
         this.currentState = state;
     }
 

@@ -43,4 +43,8 @@ public abstract class PoussinState {
             ExploseRelativeCell(2*i, j*2);
     }
     }
+
+    public void setPoussin(Poussin poussin) {
+        this.poussin = poussin;    
+    }
 }
