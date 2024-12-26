@@ -3,9 +3,9 @@ import java.awt.Color;
 public class BombeurState extends PoussinState {
         private int stups;
 
-        public BombeurState(Poussin poussin) {
-                stups = 3;
+        public BombeurState(Poussin poussin){
                 super(poussin);
+                stups=3;
         }
 
         @Override
