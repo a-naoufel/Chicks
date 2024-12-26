@@ -8,26 +8,36 @@ public class Poussin {
     private PoussinState currentState;
     public int id;
     public Game game;
-    public int fallcoun = 0;
+    public int fallcoun;
     private static int numPoussinExit = 0;
     private static int numPoussindead = 0;
     private static int numPoussin = 0;
-    private long stateChangeTime;  // moment où l'état doit changer
+    public static int numTotal = 4;
+    private long stateChangeTime; // moment où l'état doit changer
     private long delay = 5000; // délai avant de changer l'état, en millisecondes
 
     public Poussin(int id, Game game) {
         x = game.getEntry().getX();
         y = game.getEntry().getY();
         isAlive = true;
+        fallcoun = 0;
         direction = 1;
         this.game = game;
         this.id = id;
-        this.currentState=new NormalState();
+        this.currentState = new NormalState(this);
         this.stateChangeTime = System.currentTimeMillis() + delay; // initier l'heure de changement
 
     }
 
-    public void setState(PoussinState state){
+    public Cell getRelativCell(int i, int j) {
+        return game.getCell(i + x, j + y);
+    }
+
+    public void setRelativeCell(int i, int j, Cell cell) {
+        game.setCell(x + i, y + j, cell);
+    }
+
+    public void setState(PoussinState state) {
         this.currentState = state;
     }
 
@@ -38,11 +48,12 @@ public class Poussin {
     }
 
     public static boolean endGame() {
-        return numPoussin == numPoussinExit + numPoussindead;
+        return numTotal == numPoussinExit + numPoussindead;
     }
 
     public static void add() {
         numPoussin++;
+        displayCounter();
     }
 
     public int getX() {
@@ -61,79 +72,105 @@ public class Poussin {
         return direction;
     }
 
-    public void takeStepX() {
-        if ((x + direction) >= 0 & (x + direction) < game.gridSizeX()) {
+    public void goAHead() {
+        if (canStepAHead() && fallcoun == 0) {
             x += direction;
+        } else {
+            if (fallcoun == 0)
+                changeDirction();
         }
     }
 
-    public void killpoussin() {
-        isAlive = false;
-        numPoussindead++;
-        displayCounter();
+    public void kill() {
+        if (isAlive) {
+            isAlive = false;
+            currentState.exit();
+            numPoussindead++;
+            displayCounter();
+        }
     }
 
-    public boolean canMouveX() {
-        return !((game.grid[this.x + direction][this.y] instanceof ObstacleSquare)||(game.grid[this.x + direction][this.y - 1] instanceof ObstacleSquare));
+    public boolean canStepAHead() {
+        if (!isAlive || game.outOfBoundsX(x + direction) || game.outOfBoundsY(y - 1))
+            return false;
+        return !(getRelativCell(direction, -1) instanceof ObstacleSquare
+                || getRelativCell(direction, 0) instanceof ObstacleSquare);
     }
 
-    public boolean obstistical() {
-        return (game.grid[this.x + direction][this.y - 1] instanceof ObstacleSquare);
+    public boolean stears() {
+        return !(getRelativCell(direction, -1) instanceof ObstacleSquare
+                || getRelativCell(0, -1) instanceof ObstacleSquare)
+                && (getRelativCell(direction, 0) instanceof ObstacleSquare)
+                && !canFall();
     }
 
-    public boolean fall() {
-        if (y < game.gridSizeY()) {
-            if (!(game.grid[x][y + 1] instanceof ObstacleSquare)) {
+    public void fall() {
+        if (isAlive)
+            if (canFall()) {
                 y++;
-                return true;
-            }
-        }
-        return false;
+                fallcoun++;
+            } else if (fallcoun > 5)
+                kill();
+            else
+                fallcoun = 0;
+
     }
 
-    public void takeOthreDirction() {
+    public boolean canFall() {
+        return isAlive && !(getRelativCell(0, 1) instanceof ObstacleSquare);
+    }
+
+    public void changeDirction() {
         direction *= -1;
     }
 
     public void moveup() {
-        if (y > 0) {
+        if (stears())
             y--;
-        }
+
     }
 
- 
+    public void inCell() {
+        if (isAlive) {
+            getRelativCell(0, 0).handale(this);
+            getRelativCell(0, -1).handale(this);
+        }
+    }
 
     public void hitExit() {
-        
-            System.out.println("poussin id " + this.id + " hit the exit");
-            numPoussinExit++;
-            displayCounter();
-            isAlive = false;
 
-        
+        System.out.println("poussin id " + id + " hit the exit");
+        numPoussinExit++;
+        displayCounter();
+        isAlive = false;
+
     }
 
-    public void Move() {
+    public void move() {
+        if (isAlive)
+            currentState.move();
         if (System.currentTimeMillis() >= stateChangeTime) {
-            setState(new CharpentierState()); // changer d'état
+            setState(new BombeurState(this)); // changer d'état
             stateChangeTime = System.currentTimeMillis() + delay; // redémarrer le délai
         }
-        currentState.move(this);
 
     }
 
     public void draw(Graphics g, View view) {
         if (isAlive) {
-            int x1 = ((view.frame.getWidth() * getX()) / game.gridSizeX()) + 10;
-            int x3 = ((view.frame.getWidth() * getX()) / game.gridSizeX()) + 10 + getDirection() * 12;
-            int y = ((view.frame.getHeight() - 35) * getY() / game.gridSizeY()) - 8;
+            int width = view.getWidth();
+            int height = view.getHeight();
+
+            int x1 = (width * getX() / game.gridSizeX()) + 10;
+            int x3 = (width * getX() / game.gridSizeX()) + 10 + getDirection() * 12;
+            int y1 = (height * getY() / game.gridSizeY()) - 8;
+
             int[] XPoints = { x1, x1, x3 };
-            int[] Ypoints = { y - 5, y + 5, y };
+            int[] Ypoints = { y1 - 5, y1 + 5, y1 };
+
             g.setColor(currentState.getColor());
-            g.fillOval((view.frame.getWidth() * getX()) / game.gridSizeX(),
-                    (view.frame.getHeight() - 35) * getY() / game.gridSizeY(), 20, 20);
-            g.fillOval(((view.frame.getWidth() * getX()) / game.gridSizeX()) + 3,
-                    ((view.frame.getHeight() - 35) * getY() / game.gridSizeY()) - 14, 15, 15);
+            g.fillOval(width * getX() / game.gridSizeX(), height * getY() / game.gridSizeY(), 20, 20);
+            g.fillOval(width * getX() / game.gridSizeX() + 3, height * getY() / game.gridSizeY() - 14, 15, 15);
             g.fillPolygon(XPoints, Ypoints, 3);
         }
 
