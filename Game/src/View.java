@@ -29,7 +29,7 @@ public class View extends JComponent implements IObsover {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        game.drawGrid(g, this);
+        game.draw(g, this);
         for (Poussin poussin : game.getPoussins()) {
             poussin.draw(g, this);
         }

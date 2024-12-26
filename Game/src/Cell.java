@@ -13,8 +13,7 @@ public abstract class Cell implements Serializable {
 
     public void draw(int i, int j, Graphics g, View view) {
         g.setColor(getColor());
-        g.fillRect(view.frame.getWidth() * i / view.game.gridSizeX(),
-                (view.frame.getHeight() - 35) * j / view.game.gridSizeY(),
+        g.fillRect(view.getWidth() * i / view.game.gridSizeX(),view.getHeight() * j / view.game.gridSizeY(),
                 20, 20);
     }
 }

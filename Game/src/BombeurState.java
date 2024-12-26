@@ -14,164 +14,40 @@ public class BombeurState extends PoussinState {
         }
 
         @Override
-        public void move(Poussin poussin) {
-                
-                if (!poussin.isAlive()) {
-                        return;
-                }
-                poussin.getRelativCell(0, 0).handale(poussin);
-                while (stups > 0) {
-                        super.move(poussin);
-                        stups--;
-                }
-                if (stups == 0) {
-                        if (!(poussin.game.grid[poussin.getX()][poussin
-                                        .getY()] instanceof ObstacleIndestructible)) {
-                                poussin.game.grid[poussin.getX()][poussin
-                                                .getY()] = new Explosion();
-                        }
-                        if (!(poussin.game.grid[poussin.getX()][poussin.getY() - 1] instanceof ObstacleIndestructible)) {
-                                poussin.game.grid[poussin.getX()][poussin.getY() - 1] = new Explosion();
-                        }
+        public void move() {
 
-                        if (!(poussin.game.grid[poussin.getX() + 1][poussin
-                                        .getY()] instanceof ObstacleIndestructible)) {
-                                poussin.game.grid[poussin.getX() + 1][poussin
-                                                .getY()] = new Explosion();
-                                if (!(poussin.game.grid[poussin.getX() + 2][poussin
-                                                .getY()] instanceof ObstacleIndestructible)) {
-                                        poussin.game.grid[poussin.getX() + 2][poussin
-                                                        .getY()] = new Explosion();
-                                }
-                        }
-                        if (!(poussin.game.grid[poussin.getX() - 1][poussin
-                                        .getY()] instanceof ObstacleIndestructible)) {
-                                poussin.game.grid[poussin.getX() - 1][poussin
-                                                .getY()] = new Explosion();
-                                if (!(poussin.game.grid[poussin.getX() - 2][poussin
-                                                .getY()] instanceof ObstacleIndestructible)) {
-                                        poussin.game.grid[poussin.getX() - 2][poussin
-                                                        .getY()] = new Explosion();
-                                }
-                        }
-                        if (!(poussin.game.grid[poussin.getX()][poussin
-                                        .getY() - 1] instanceof ObstacleIndestructible)) {
-                                poussin.game.grid[poussin.getX()][poussin
-                                                .getY() - 1] = new Explosion();
-                                if (!(poussin.game.grid[poussin.getX()][poussin
-                                                .getY() - 2] instanceof ObstacleIndestructible)) {
-                                        poussin.game.grid[poussin.getX()][poussin
-                                                        .getY() - 2] = new Explosion();
-                                }
-                        }
-                        if (!(poussin.game.grid[poussin.getX()][poussin
-                                        .getY() + 1] instanceof ObstacleIndestructible)) {
-                                poussin.game.grid[poussin.getX()][poussin
-                                                .getY() + 1] = new Explosion();
-                                if (!(poussin.game.grid[poussin.getX()][poussin
-                                                .getY() + 2] instanceof ObstacleIndestructible)) {
-                                        poussin.game.grid[poussin.getX()][poussin
-                                                        .getY() + 2] = new Explosion();
-                                }
-                        }
-                        if (!(poussin.game.grid[poussin.getX() + 1][poussin
-                                        .getY() + 1] instanceof ObstacleIndestructible)) {
-                                poussin.game.grid[poussin.getX() + 1][poussin
-                                                .getY() + 1] = new Explosion();
-                        }
-                        if (!(poussin.game.grid[poussin.getX() - 1][poussin
-                                        .getY() - 1] instanceof ObstacleIndestructible)) {
-                                poussin.game.grid[poussin.getX() - 1][poussin
-                                                .getY() - 1] = new Explosion();
-                        }
-                        if (!(poussin.game.grid[poussin.getX() + 1][poussin
-                                        .getY() - 1] instanceof ObstacleIndestructible)) {
-                                poussin.game.grid[poussin.getX() + 1][poussin
-                                                .getY() - 1] = new Explosion();
-                        }
-                        if (!(poussin.game.grid[poussin.getX() - 1][poussin
-                                        .getY() + 1] instanceof ObstacleIndestructible)) {
-                                poussin.game.grid[poussin.getX() - 1][poussin
-                                                .getY() + 1] = new Explosion();
-                        }
+                if (stups > 0) {
+                        super.move();
+                        stups--;
+                } else if (stups == 0) {
+                        makeExplosion();
                         stups--;
 
                 } else if (stups < 0) {
-                        if ((poussin.game.grid[poussin.getX()][poussin
-                                        .getY()] instanceof Explosion)) {
-                                poussin.game.grid[poussin.getX()][poussin
-                                                .getY()] = new EmptySquare();
-                        }
-                        if ((poussin.game.grid[poussin.getX()][poussin
-                                        .getY() - 1] instanceof Explosion)) {
-                                poussin.game.grid[poussin.getX()][poussin
-                                                .getY() - 1] = new EmptySquare();
-                        }
-                        if ((poussin.game.grid[poussin.getX() + 1][poussin
-                                        .getY()] instanceof Explosion)) {
-                                poussin.game.grid[poussin.getX() + 1][poussin
-                                                .getY()] = new EmptySquare();
-                                if ((poussin.game.grid[poussin.getX() + 2][poussin
-                                                .getY()] instanceof Explosion)) {
-                                        poussin.game.grid[poussin.getX() + 2][poussin
-                                                        .getY()] = new EmptySquare();
-                                }
-                        }
-                        if ((poussin.game.grid[poussin.getX() - 1][poussin
-                                        .getY()] instanceof Explosion)) {
-                                poussin.game.grid[poussin.getX() - 1][poussin
-                                                .getY()] = new EmptySquare();
-                                if ((poussin.game.grid[poussin.getX() - 2][poussin
-                                                .getY()] instanceof Explosion)) {
-                                        poussin.game.grid[poussin.getX() - 2][poussin
-                                                        .getY()] = new EmptySquare();
-                                }
-                        }
-                        if ((poussin.game.grid[poussin.getX()][poussin
-                                        .getY() - 1] instanceof Explosion)) {
-                                poussin.game.grid[poussin.getX()][poussin
-                                                .getY() - 1] = new EmptySquare();
-                                if ((poussin.game.grid[poussin.getX()][poussin
-                                                .getY() - 2] instanceof Explosion)) {
-                                        poussin.game.grid[poussin.getX()][poussin
-                                                        .getY() - 2] = new EmptySquare();
-                                }
-                        }
-                        if ((poussin.game.grid[poussin.getX()][poussin
-                                        .getY() + 1] instanceof Explosion)) {
-                                poussin.game.grid[poussin.getX()][poussin
-                                                .getY() + 1] = new EmptySquare();
-                                if ((poussin.game.grid[poussin.getX()][poussin
-                                                .getY() + 2] instanceof Explosion)) {
-                                        poussin.game.grid[poussin.getX()][poussin
-                                                        .getY() + 2] = new EmptySquare();
-                                }
-                        }
-                        if ((poussin.game.grid[poussin.getX() + 1][poussin
-                                        .getY() + 1] instanceof Explosion)) {
-                                poussin.game.grid[poussin.getX() + 1][poussin
-                                                .getY() + 1] = new EmptySquare();
-                        }
-                        if ((poussin.game.grid[poussin.getX() - 1][poussin
-                                        .getY() - 1] instanceof Explosion)) {
-                                poussin.game.grid[poussin.getX() - 1][poussin
-                                                .getY() - 1] = new EmptySquare();
-                        }
-                        if ((poussin.game.grid[poussin.getX() + 1][poussin
-                                        .getY() - 1] instanceof Explosion)) {
-                                poussin.game.grid[poussin.getX() + 1][poussin
-                                                .getY() - 1] = new EmptySquare();
-                        }
-                        if ((poussin.game.grid[poussin.getX() - 1][poussin
-                                        .getY() + 1] instanceof Explosion)) {
-                                poussin.game.grid[poussin.getX() - 1][poussin
-                                                .getY() + 1] = new EmptySquare();
-                        }
+
+                        poussin.kill();
                 }
         }
 
+        private void makeExplosion() {
+                Explosenext(-1, 0);
+                Explosenext(1, 0);
+                Explosenext(0, 1);
+                Explosenext(0, -1);
+
+                for (int i = -1; i < 2; i++)
+                        for (int j = -1; j < 2; j++)
+                                ExploseRelativeCell(i, j);
+        }
+
+        private void clearExplosions() {
+                for (int i = -3; i < 3; i++)
+                        for (int j = -3; j < 3; j++)
+                                clearExplosion(i, j);
+        }
+
         @Override
-        public void exit(Poussin poussin) {
-                poussin.kill();
+        public void exit() {
+                clearExplosions();
         }
 }

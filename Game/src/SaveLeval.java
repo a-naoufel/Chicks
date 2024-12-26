@@ -4,10 +4,16 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 public class SaveLeval {
+    static Game game;
+
     public static void main(String[] args) throws IOException {
-        Game game = new Game();
+        game = new Game();
         game.defaultGame();
-        File f = new File("leval1.data");
+        saveLeval("leval1.data");
+    }
+
+    private static void saveLeval(String leval) throws IOException {
+        File f = new File(leval);
         FileOutputStream fos = new FileOutputStream(f);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(game.grid);

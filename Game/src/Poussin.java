@@ -24,7 +24,7 @@ public class Poussin {
         direction = 1;
         this.game = game;
         this.id = id;
-        this.currentState = new CharpentierState(this);
+        this.currentState = new NormalState(this);
         this.stateChangeTime = System.currentTimeMillis() + delay; // initier l'heure de changement
 
     }
@@ -84,8 +84,7 @@ public class Poussin {
     public void kill() {
         if (isAlive) {
             isAlive = false;
-            game.removePoussin(this);
-            System.out.println("kill " + id);
+            currentState.exit();
             numPoussindead++;
             displayCounter();
         }
@@ -96,10 +95,6 @@ public class Poussin {
             return false;
         return !(getRelativCell(direction, -1) instanceof ObstacleSquare
                 || getRelativCell(direction, 0) instanceof ObstacleSquare);
-    }
-
-    public boolean canGoAHead() {
-        return getRelativCell(direction, -1) instanceof ObstacleSquare;
     }
 
     public boolean stears() {
@@ -151,12 +146,13 @@ public class Poussin {
 
     }
 
-    public void Move() {
+    public void move() {
+        if (isAlive)
+            currentState.move();
         if (System.currentTimeMillis() >= stateChangeTime) {
-            setState(new CharpentierState(this)); // changer d'état
+            setState(new BombeurState(this)); // changer d'état
             stateChangeTime = System.currentTimeMillis() + delay; // redémarrer le délai
         }
-        currentState.move(this);
 
     }
 
@@ -167,10 +163,10 @@ public class Poussin {
 
             int x1 = (width * getX() / game.gridSizeX()) + 10;
             int x3 = (width * getX() / game.gridSizeX()) + 10 + getDirection() * 12;
-            int y = (height * getY() / game.gridSizeY()) - 8;
+            int y1 = (height * getY() / game.gridSizeY()) - 8;
 
             int[] XPoints = { x1, x1, x3 };
-            int[] Ypoints = { y - 5, y + 5, y };
+            int[] Ypoints = { y1 - 5, y1 + 5, y1 };
 
             g.setColor(currentState.getColor());
             g.fillOval(width * getX() / game.gridSizeX(), height * getY() / game.gridSizeY(), 20, 20);

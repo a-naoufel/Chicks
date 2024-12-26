@@ -8,23 +8,24 @@ public class CharpentierState extends PoussinState {
     }
 
     @Override
-    public void move(Poussin poussin) {
+    public void move() {
 
         if (steps > 0) {
 
             poussin.inCell();
             poussin.fall();
-
-            if (!poussin.canFall() && poussin.fallcoun == 0) {
-                buildRelativeCell(poussin.getDirection(), 0);
-            }
-
+            build();
             poussin.moveup();
             poussin.goAHead();
 
             steps--;
         } else {
-            exit(poussin);
+            exit();
+        }
+    }
+    private void build(){
+        if (!poussin.canFall() && poussin.fallcoun == 0) {
+            buildRelativeCell(poussin.getDirection(), 0);
         }
     }
 
@@ -34,7 +35,7 @@ public class CharpentierState extends PoussinState {
     }
 
     @Override
-    public void exit(Poussin poussin) {
+    public void exit() {
        poussin.setState(new NormalState(poussin));
     }
 

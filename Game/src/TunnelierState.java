@@ -2,7 +2,7 @@ import java.awt.Color;
 
 public class TunnelierState extends PoussinState {
 
-    public TunnelierState(Poussin poussin){
+    public TunnelierState(Poussin poussin) {
         super(poussin);
     }
 
@@ -12,18 +12,22 @@ public class TunnelierState extends PoussinState {
     }
 
     @Override
-    public void move(Poussin poussin) {
+    public void move() {
         poussin.inCell();
         poussin.fall();
+        makeTunnele();
+        poussin.goAHead();
+    }
+
+    private void makeTunnele() {
         if (!poussin.canFall()) {
             destroyRelativeCell(poussin.getDirection(), 0);
             destroyRelativeCell(poussin.getDirection(), -1);
         }
-        poussin.goAHead();
     }
 
     @Override
-    public void exit(Poussin poussin) {
+    public void exit() {
         poussin.setState(new NormalState(poussin));
     }
 

@@ -7,10 +7,8 @@ public class NormalState extends PoussinState {
     }
 
     @Override
-    public void move(Poussin poussin) {
-        super.move(poussin);
-        poussin.moveup();
-        poussin.goAHead();
+    public void move() {
+        super.move();
     }
 
     @Override
@@ -19,7 +17,7 @@ public class NormalState extends PoussinState {
     }
 
     @Override
-    public void exit(Poussin poussin) {
+    public void exit() {
     }
 
 }

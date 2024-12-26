@@ -11,18 +11,20 @@ public class ForeurState extends PoussinState {
     }
 
     @Override
-    public void move(Poussin poussin) {
+    public void move() {
        poussin.inCell();
        poussin.fall();
+       dig();
+    }
 
+    private void dig(){
         if(! poussin.canFall()){
             destroyRelativeCell(0, 1);
         }
-
     }
 
     @Override
-    public void exit(Poussin poussin) {
+    public void exit() {
         poussin.setState(new NormalState(poussin));
     }
 
