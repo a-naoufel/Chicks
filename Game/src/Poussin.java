@@ -126,9 +126,11 @@ public class Poussin {
     }
 
     public void moveup() {
+        y--;
+    }
+    public void takeSters(){
         if (stears())
-            y--;
-
+            moveup();
     }
 
     public void inCell() {
@@ -151,8 +153,8 @@ public class Poussin {
         if (isAlive)
             currentState.move();
         if (System.currentTimeMillis() >= stateChangeTime) {
-            setState(new GrimpeurState(this)); 
-            stateChangeTime = System.currentTimeMillis() + delay; 
+            setState(new GrimpeurState(this));
+            stateChangeTime = System.currentTimeMillis() + delay;
         }
 
     }
