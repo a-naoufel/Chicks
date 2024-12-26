@@ -45,10 +45,6 @@ public abstract class PoussinState {
     }
 
     public void setPoussin(Poussin poussin) {
-<<<<<<< HEAD
-        this.poussin = poussin;    
-=======
         this.poussin = poussin;
->>>>>>> 622c21a ( seting state changes the Poussin instance in state)
     }
 }
