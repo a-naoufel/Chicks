@@ -150,8 +150,8 @@ public class Poussin {
         if (isAlive)
             currentState.move();
         if (System.currentTimeMillis() >= stateChangeTime) {
-            setState(new BombeurState(this)); // changer d'état
-            stateChangeTime = System.currentTimeMillis() + delay; // redémarrer le délai
+            setState(new GrimpeurState(this)); 
+            stateChangeTime = System.currentTimeMillis() + delay; 
         }
 
     }
