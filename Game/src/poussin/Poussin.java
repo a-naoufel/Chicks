@@ -1,11 +1,14 @@
 package poussin;
+
 import java.awt.Graphics;
 
+import game.Game;
+import poussin.state.GrimpeurState;
+import poussin.state.NormalState;
+import poussin.state.PoussinState;
 import terrain.*;
-import state.GrimpeurState;
-import state.NormalState;
-import state.PoussinState;
 import terrain.blockes.Cell;
+import terrain.blockes.Entry;
 import terrain.blockes.ObstacleSquare;
 import view.View;
 
@@ -16,26 +19,29 @@ public class Poussin {
     private int direction;// 1: for right and -1: for left
     private PoussinState currentState;
     public int id;
-    public Terrain game;
+    public Game game;
+    public Terrain terrain;
     public int fallcoun;
-    private static int numPoussinExit = 0;
-    private static int numPoussindead = 0;
-    private static int numPoussin = 0;
-    public static int numTotal = 4;
     private long stateChangeTime; // moment où l'état doit changer
     private long delay = 5000; // délai avant de changer l'état, en millisecondes
 
-    public Poussin(int id, Terrain game) {
-        x = game.getEntry().getX();
-        y = game.getEntry().getY();
+    public Poussin(int id, Game game) {
+        this.game = game;
+        terrain = game.getTerrain();
         isAlive = true;
+        this.id = id;
         fallcoun = 0;
         direction = 1;
-        this.game = game;
-        this.id = id;
+        setEntry();
         this.currentState = new NormalState(this);
         this.stateChangeTime = System.currentTimeMillis() + delay; // initier l'heure de changement
 
+    }
+
+    private void setEntry() {
+        Entry e = game.getEntry();
+        x = e.getX();
+        y = e.getY();
     }
 
     public Cell getRelativCell(int i, int j) {
@@ -49,21 +55,6 @@ public class Poussin {
     public void setState(PoussinState state) {
         state.setPoussin(this);
         this.currentState = state;
-    }
-
-    public static void displayCounter() {
-        System.out.println("Poussin entrer: " + numPoussin);
-        System.out.println("Poussin sortie: " + numPoussinExit);
-        System.out.println("Poussin mort: " + numPoussindead + "\n");
-    }
-
-    public static boolean endGame() {
-        return numTotal == numPoussinExit + numPoussindead;
-    }
-
-    public static void add() {
-        numPoussin++;
-        displayCounter();
     }
 
     public int getX() {
@@ -95,13 +86,12 @@ public class Poussin {
         if (isAlive) {
             isAlive = false;
             currentState.exit();
-            numPoussindead++;
-            displayCounter();
+            game.addPoussin(this);
         }
     }
 
     public boolean canStepAHead() {
-        if (!isAlive || game.outOfBoundsX(x + direction) || game.outOfBoundsY(y - 1))
+        if (!isAlive || terrain.outOfBoundsX(x + direction) || terrain.outOfBoundsY(y - 1))
             return false;
         return !(getRelativCell(direction, -1) instanceof ObstacleSquare
                 || getRelativCell(direction, 0) instanceof ObstacleSquare);
@@ -137,7 +127,8 @@ public class Poussin {
     public void moveup() {
         y--;
     }
-    public void takeSters(){
+
+    public void takeSters() {
         if (stears())
             moveup();
     }
@@ -152,8 +143,7 @@ public class Poussin {
     public void hitExit() {
 
         System.out.println("poussin id " + id + " hit the exit");
-        numPoussinExit++;
-        displayCounter();
+        game.incNumExit();
         isAlive = false;
 
     }
@@ -165,26 +155,37 @@ public class Poussin {
             setState(new GrimpeurState(this));
             stateChangeTime = System.currentTimeMillis() + delay;
         }
+        game.notifyObservers(); // Update view after all moves
+
 
     }
 
-    public void draw(Graphics g, View view) {
-        if (isAlive) {
-            int width = view.getWidth();
-            int height = view.getHeight();
+    public void draw(View view) {
+        if (isAlive) 
+            drawPoussin(view);
+        
 
-            int x1 = (width * getX() / game.gridSizeX()) + 10;
-            int x3 = (width * getX() / game.gridSizeX()) + 10 + getDirection() * 12;
-            int y1 = (height * getY() / game.gridSizeY()) - 8;
+    }
+    
+    private void drawPoussin(View view){
+        Graphics g = view.getGraphics();
+        int width = view.getWidth();
+        int height = view.getHeight();
 
-            int[] XPoints = { x1, x1, x3 };
-            int[] Ypoints = { y1 - 5, y1 + 5, y1 };
+        int x1 = (width * getX() / terrain.gridSizeX()) + 10;
+        int x3 = (width * getX() / terrain.gridSizeX()) + 10 + getDirection() * 12;
+        int y1 = (height * getY() / terrain.gridSizeY()) - 8;
 
-            g.setColor(currentState.getColor());
-            g.fillOval(width * getX() / game.gridSizeX(), height * getY() / game.gridSizeY(), 20, 20);
-            g.fillOval(width * getX() / game.gridSizeX() + 3, height * getY() / game.gridSizeY() - 14, 15, 15);
-            g.fillPolygon(XPoints, Ypoints, 3);
-        }
+        int[] XPoints = { x1, x1, x3 };
+        int[] Ypoints = { y1 - 5, y1 + 5, y1 };
 
+        g.setColor(currentState.getColor());
+        g.fillOval(width * getX() / terrain.gridSizeX(), height * getY() / terrain.gridSizeY(), 20, 20);
+        g.fillOval(width * getX() / terrain.gridSizeX() + 3, height * getY() / terrain.gridSizeY() - 14, 15, 15);
+        g.fillPolygon(XPoints, Ypoints, 3);
+    }
+    public class Move {
+    
+        
     }
 }

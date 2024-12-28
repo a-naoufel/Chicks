@@ -1,14 +1,13 @@
 package terrain.blockes;
 import java.awt.Color;
 
-import poussin.Poussin;
-
 public class EmptySquare extends Cell {
-    public EmptySquare() {
+    public EmptySquare(int x, int y) {
+        super(x, y);
         color = Color.BLUE;
     }
-
-    @Override
-    public void handale(Poussin p) {
+    public EmptySquare(){
+        super();
+        color = Color.BLUE;
     }
 }

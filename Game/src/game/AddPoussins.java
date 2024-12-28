@@ -3,7 +3,7 @@ import poussin.Poussin;
 
 public class AddPoussins extends Thread{
     Game game;
-    int delay = 3000;
+    int delay = 2000;
 
     public AddPoussins(Game game){
         this.game = game;
@@ -11,9 +11,9 @@ public class AddPoussins extends Thread{
 
     @Override
     public void run(){
-        for (int i = 0; i < Poussin.numTotal; i++) {
+        for (int i = 0; i < game.getNumTotal(); i++) {
             System.out.println("add " + i);
-            game.addPoussin(new Poussin(i,game.getTerrain()));
+            game.addPoussin(new Poussin(i,game));
             game.mysleep(delay);
         }
     }

@@ -1,4 +1,4 @@
-package state;
+package poussin.state;
 import java.awt.Color;
 
 import poussin.Poussin;

@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.Graphics;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -19,16 +18,26 @@ import view.View;
 
 public class Game implements IObsovable {
     private Terrain terrain;
-    public ArrayList<Poussin> poussins;
+    public Poussins poussins;
     private ArrayList<IObsover> obsovers;
     private String selectedLeval = "leval1.data";
 
-    public int gridSizeX() {
-        return terrain.gridSizeX();
+    public Game() {
+        terrain = new Terrain();
+        poussins = new Poussins();
+        obsovers = new ArrayList<>();
+    }
+    public void incNumExit(){
+        poussins.incNumExit();
     }
 
-    public int gridSizeY() {
-        return terrain.gridSizeY();
+    public void run() {
+        initialGame();
+        do {
+            updateGame();
+            mysleep(200);
+        } while (!poussins.endGame());
+        end();
     }
 
     public Entry getEntry() {
@@ -43,43 +52,14 @@ public class Game implements IObsovable {
         terrain.setCell(i, j, cell);
     }
 
-    public Game() {
-        terrain = new Terrain();
-        poussins = new ArrayList<>();
-        obsovers = new ArrayList<>();
-    }
-
-    public void run() {
-        initialGame();
-        do {
-            updateGame();
-            mysleep(200);
-        } while (!Poussin.endGame());
-        end();
-    }
-
     public void end() {
         View view = (View) obsovers.get(0);
         System.out.println("La Fin");
         view.frame.setVisible(false);
     }
 
-    public void draw(Graphics g, View view) {
-        terrain.draw(g, view);
-        for (Poussin poussin : poussins) {
-            poussin.draw(g, view);
-        }
-    }
-
     public void updateGame() {
-        for (Poussin poussin : poussins) {
-            poussin.move();
-            notifyObservers(); // Update view after all moves
-        }
-    }
-
-    public ArrayList<Poussin> getPoussins() {
-        return new ArrayList<>(poussins);
+        poussins.updateAll();
     }
 
     public void addObserver(IObsover o) {
@@ -100,17 +80,17 @@ public class Game implements IObsovable {
 
     public void defaultGame() {
 
-        for (int i = 0; i < gridSizeX(); i++) {
-            for (int j = 0; j < gridSizeY(); j++) {
+        for (int i = 0; i < terrain.gridSizeX(); i++) {
+            for (int j = 0; j < terrain.gridSizeY(); j++) {
                 setCell(i, j, new EmptySquare());
             }
         }
         for (int i = 0; i < terrain.gridSizeX(); i++) {
-            for (int j = 22; j < gridSizeY(); j++) {
+            for (int j = 22; j < terrain.gridSizeY(); j++) {
                 setCell(i, j, new LavaSquare());
             }
         }
-        for (int i = 0; i < gridSizeX(); i++) {
+        for (int i = 0; i < terrain.gridSizeX(); i++) {
             for (int j = 21; j < 22; j++) {
                 setCell(i, j, new ObstacleSquare());
             }
@@ -147,22 +127,25 @@ public class Game implements IObsovable {
 
     public void addPoussin(Poussin poussin) {
         poussins.add(poussin);
-        Poussin.add();
     }
 
-    public void removePoussin(Poussin poussin) {
-        poussins.remove(poussin);
-    }
-    
     public Terrain getTerrain() {
         return terrain;
     }
-    
+
     public void mysleep(int delay) {
         try {
             Thread.sleep(delay);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void draw(View view) {
+        terrain.draw(view);
+        poussins.drawAll(view);
+    }
+    public int getNumTotal() {
+        return poussins.numTotal;
     }
 }
