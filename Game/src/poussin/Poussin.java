@@ -3,10 +3,9 @@ package poussin;
 import java.awt.Graphics;
 
 import game.Game;
-import poussin.state.GrimpeurState;
 import poussin.state.NormalState;
 import poussin.state.PoussinState;
-import terrain.*;
+import terrain.Terrain;
 import terrain.blockes.Cell;
 import terrain.blockes.Entry;
 import terrain.blockes.ObstacleSquare;
@@ -151,10 +150,10 @@ public class Poussin {
     public void move() {
         if (isAlive)
             currentState.move();
-        if (System.currentTimeMillis() >= stateChangeTime) {
-            setState(new GrimpeurState(this));
-            stateChangeTime = System.currentTimeMillis() + delay;
-        }
+        // if (System.currentTimeMillis() >= stateChangeTime) {
+        //     setState(new BombeurState(this));
+        //     stateChangeTime = System.currentTimeMillis() + delay;
+        // }
         game.notifyObservers(); // Update view after all moves
 
 
