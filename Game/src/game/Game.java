@@ -148,4 +148,15 @@ public class Game implements IObsovable {
     public int getNumTotal() {
         return poussins.numTotal;
     }
+
+   
+
+    public Poussin getPoussinClicked(int x, int y) {
+        for (Poussin poussin : poussins.poussins) {
+            if (poussin.getX() == x && poussin.getY() == y) {
+                return poussin;
+            }
+        }
+        return null; 
+    }
 }
