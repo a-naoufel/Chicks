@@ -21,8 +21,6 @@ public class Poussin {
     public Game game;
     public Terrain terrain;
     public int fallcoun;
-    private long stateChangeTime; // moment où l'état doit changer
-    private long delay = 5000; // délai avant de changer l'état, en millisecondes
 
     public Poussin(int id, Game game) {
         this.game = game;
@@ -33,7 +31,6 @@ public class Poussin {
         direction = 1;
         setEntry();
         this.currentState = new NormalState(this);
-        this.stateChangeTime = System.currentTimeMillis() + delay; // initier l'heure de changement
 
     }
 

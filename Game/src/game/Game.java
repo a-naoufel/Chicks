@@ -34,9 +34,10 @@ public class Game implements IObsovable {
 
     public void run() {
         initialGame();
+        updateGame();
         do {
             updateGame();
-            mysleep(500);
+            mysleep(300);
         } while (!poussins.endGame());
         end();
     }

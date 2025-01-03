@@ -8,7 +8,6 @@ import java.awt.event.MouseAdapter;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import game.Game;
 import poussin.Poussin;
@@ -27,7 +26,7 @@ public class View extends JComponent implements IObsover {
     private int ofSetY = 35;
     private Graphics g ;
     private String selectedState="Normal";
-    private int ofSetX = 150;
+    private int ofSet = 100;
     
     
     
@@ -35,7 +34,7 @@ public class View extends JComponent implements IObsover {
             this.game = game;
             frame = new JFrame("Penguins");
             //frame.setDefaultCloseOperation(0);
-            frame.setSize(1000 + ofSetX, 515);
+            frame.setSize(1000 , 515 + ofSet);
             frame.setResizable(false);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.setFocusable(true);
@@ -128,11 +127,11 @@ public class View extends JComponent implements IObsover {
         }
     
         public int getHeight() {
-            return frame.getHeight() - ofSetY;
+            return frame.getHeight() - ofSetY - ofSet;
         }
     
         public int getWidth() {
-            return frame.getWidth() - ofSetX;
+            return frame.getWidth();
     }
 
     public int gridSizeX() {
