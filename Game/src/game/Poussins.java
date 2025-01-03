@@ -35,8 +35,8 @@ public class Poussins {
         displayCounter();
     }
 
-    public void kill() {
-        inStage--;
+    public void kill(Poussin poussin) {
+        deads++;
         displayCounter();
     }
     public void drawAll(View view){
