@@ -163,4 +163,8 @@ public class Game implements IObsovable {
         }
         return null;
     }
+
+    public void kill(Poussin poussin) {
+        poussins.kill(poussin);
+    }
 }
