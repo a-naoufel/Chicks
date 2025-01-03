@@ -83,9 +83,9 @@ public class Poussin {
 
     public void kill() {
         if (isAlive) {
-            isAlive = false;
             currentState.exit();
-            game.addPoussin(this);
+            isAlive = false;
+            // game.addPoussin(this);
         }
     }
 

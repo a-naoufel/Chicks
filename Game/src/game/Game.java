@@ -27,7 +27,8 @@ public class Game implements IObsovable {
         poussins = new Poussins();
         obsovers = new ArrayList<>();
     }
-    public void incNumExit(){
+
+    public void incNumExit() {
         poussins.incNumExit();
     }
 
@@ -35,7 +36,7 @@ public class Game implements IObsovable {
         initialGame();
         do {
             updateGame();
-            mysleep(200);
+            mysleep(500);
         } while (!poussins.endGame());
         end();
     }
@@ -145,18 +146,20 @@ public class Game implements IObsovable {
         terrain.draw(view);
         poussins.drawAll(view);
     }
+
     public int getNumTotal() {
         return poussins.numTotal;
     }
-
-   
 
     public Poussin getPoussinClicked(int x, int y) {
         for (Poussin poussin : poussins.poussins) {
             if (poussin.getX() == x && poussin.getY() == y) {
                 return poussin;
             }
+            if (poussin.getX() == x && poussin.getY() == y + 1) {
+                return poussin;
+            }
         }
-        return null; 
+        return null;
     }
 }
