@@ -1,13 +1,17 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import game.Game;
 import poussin.Poussin;
@@ -27,6 +31,7 @@ public class View extends JComponent implements IObsover {
     private Graphics g ;
     private String selectedState="Normal";
     private int ofSet = 100;
+
     
     
     
@@ -40,10 +45,33 @@ public class View extends JComponent implements IObsover {
             this.setFocusable(true);
             frame.add(this, java.awt.BorderLayout.CENTER);
             frame.setVisible(true);
-            frame.setContentPane(this);
-    
+            //frame.setContentPane(this);
+
+           // Create instruction panel
+            JPanel instructionPanel = new JPanel();
+            instructionPanel.setLayout(new BoxLayout(instructionPanel, BoxLayout.X_AXIS));
+            instructionPanel.setBackground(new Color(255, 255, 255, 200)); 
+            instructionPanel.setOpaque(true);
+
+             JLabel instructionLabel = new JLabel("<html><center>" +
+            "Press <b>'B'</b> for Bombeur, <b>'L'</b> for Bloqueur,<br>" +
+            "<b>'M'</b> for Charpentier, <b>'Y'</b> for Foreur,<br>" +
+            "<b>'G'</b> for Grimpeur, <b>'P'</b> for Parachutist" +
+            "</center></html>");
+            instructionLabel.setFont(new Font("SansSerif", Font.PLAIN, 17));
+            instructionLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            instructionPanel.add(instructionLabel);
+
+            JLabel counterLabel = new JLabel( game.poussins.displayCounter());
+            counterLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+            instructionPanel.add(counterLabel);
+
+            // Set the preferred size to accommodate the panel
+            instructionPanel.setPreferredSize(new java.awt.Dimension(frame.getWidth(), 100));
+            frame.add(instructionPanel, java.awt.BorderLayout.SOUTH);
             
-    
+                    
+            
             this.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {
@@ -85,8 +113,7 @@ public class View extends JComponent implements IObsover {
     
                     int gridX = x * game.getTerrain().gridSizeX() / getWidth();
                     int gridY = y * game.getTerrain().gridSizeY() / getHeight();
-                    System.out.println(gridX);
-                    System.out.println(gridY);
+                    
     
                 Poussin clickedPoussin = game.getPoussinClicked(gridX, gridY);
                 if (clickedPoussin != null) {
@@ -121,6 +148,9 @@ public class View extends JComponent implements IObsover {
         
             game.addObserver(this);
         }
+        
+
+        
     
         public Graphics getGraphics(){
             return g;
