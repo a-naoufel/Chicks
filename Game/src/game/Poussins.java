@@ -20,7 +20,7 @@ public class Poussins {
     }
 
     public String displayCounter() {
-        String counter="Poussin entrer: " + inStage +"\n Poussin sortie: " + exits+ "\n Poussin mort: " + deads + "\n";
+        String counter="Poussin entrer: " + inStage +"\n" + " Poussin sortie: " + exits + "\n"+ " Poussin mort: " + deads + "\n";
         // System.out.println("Poussin entrer: " + inStage);
         // System.out.println("Poussin sortie: " + exits);
         // System.out.println("Poussin mort: " + deads + "\n");
@@ -39,7 +39,7 @@ public class Poussins {
 
     public void kill(Poussin poussin) {
         deads++;
-        displayCounter();
+        System.out.println(displayCounter());
     }
     public void drawAll(View view){
         for (Poussin poussin : poussins) {
