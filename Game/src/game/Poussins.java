@@ -19,10 +19,12 @@ public class Poussins {
         exits ++;
     }
 
-    public void displayCounter() {
-        System.out.println("Poussin entrer: " + inStage);
-        System.out.println("Poussin sortie: " + exits);
-        System.out.println("Poussin mort: " + deads + "\n");
+    public String displayCounter() {
+        String counter="Poussin entrer: " + inStage +"\n" + " Poussin sortie: " + exits + "\n"+ " Poussin mort: " + deads + "\n";
+        // System.out.println("Poussin entrer: " + inStage);
+        // System.out.println("Poussin sortie: " + exits);
+        // System.out.println("Poussin mort: " + deads + "\n");
+        return counter;
     }
 
     public boolean endGame() {
@@ -32,12 +34,12 @@ public class Poussins {
     public void add(Poussin poussin) {
         poussins.add(poussin);
         inStage++;
-        displayCounter();
+        System.out.println(displayCounter());
     }
 
     public void kill(Poussin poussin) {
         deads++;
-        displayCounter();
+        System.out.println(displayCounter());
     }
     public void drawAll(View view){
         for (Poussin poussin : poussins) {

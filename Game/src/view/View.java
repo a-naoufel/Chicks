@@ -1,13 +1,21 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import game.Game;
 import poussin.Poussin;
@@ -20,6 +28,7 @@ import poussin.state.NormalState;
 import poussin.state.PoussinState;
 import terrain.blockes.Cell;
 
+
 public class View extends JComponent implements IObsover {
     public JFrame frame;
     private Game game;
@@ -27,23 +36,71 @@ public class View extends JComponent implements IObsover {
     private Graphics g ;
     private String selectedState="Normal";
     private int ofSet = 100;
+    private JLabel counterLabel; 
+
     
     
     
         public View(Game game) {
             this.game = game;
             frame = new JFrame("Penguins");
-            //frame.setDefaultCloseOperation(0);
             frame.setSize(1000 , 515 + ofSet);
             frame.setResizable(false);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.setFocusable(true);
+
+
+            frame.setLayout(new BorderLayout());
+            this.setPreferredSize(new Dimension(985, 515));
             frame.add(this, java.awt.BorderLayout.CENTER);
-            frame.setVisible(true);
-            frame.setContentPane(this);
-    
+            //frame.setLayout(new BorderLayout());;
+            //frame.setContentPane(this);
+
+
+           
+
+
+            JPanel instructionPanel = new JPanel();
+            instructionPanel.setLayout(new FlowLayout(FlowLayout.CENTER)); // Align components to the left
+            instructionPanel.setPreferredSize(new Dimension(900, 60)); // Explicit dimensions
+
+            // Add icons with text
+            String[] states = {"Bombeur", "Bloqueur", "Charpentier", "Foreur", "Grimpeur", "Parachutist"};
+            String[] keys = {"B", "L", "M", "Y", "G", "P"};
+            String[] iconPaths = {"C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\bomb.jpg",
+                                    "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\block.jpg",
+                                "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\charp.jpg",
+                            "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\Foruer.jpg",
+                        "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\",
+                        "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\Parach.jpg"};
+                JLabel statesLabel =new JLabel("States: ");
+                instructionPanel.add(statesLabel);
+            for (int i = 0; i < states.length; i++) {
+                // Load and resize the icon
+                ImageIcon icon = new ImageIcon(iconPaths[i]);
+                Image img = icon.getImage();
+                Image scaledImg = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+                icon = new ImageIcon(scaledImg);
+
+                JLabel label = new JLabel(states[i] + " (Press " + keys[i] + ")");
+                label.setIcon(icon);
+                label.setHorizontalTextPosition(JLabel.RIGHT);
+                label.setVerticalTextPosition(JLabel.CENTER);
+
+                instructionPanel.add(label);
+
+                
+}
+                counterLabel= new JLabel( game.poussins.displayCounter());
+                counterLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+                instructionPanel.add(counterLabel);
+
             
-    
+
+            frame.add(instructionPanel, BorderLayout.SOUTH);
+            
+                    
+            
             this.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {
@@ -85,8 +142,7 @@ public class View extends JComponent implements IObsover {
     
                     int gridX = x * game.getTerrain().gridSizeX() / getWidth();
                     int gridY = y * game.getTerrain().gridSizeY() / getHeight();
-                    System.out.println(gridX);
-                    System.out.println(gridY);
+                    
     
                 Poussin clickedPoussin = game.getPoussinClicked(gridX, gridY);
                 if (clickedPoussin != null) {
@@ -118,9 +174,15 @@ public class View extends JComponent implements IObsover {
             
         });
     
-        
+            frame.pack(); // Adjust component sizes
+            frame.setVisible(true);
+
+
             game.addObserver(this);
         }
+        
+
+        
     
         public Graphics getGraphics(){
             return g;
@@ -169,6 +231,7 @@ public class View extends JComponent implements IObsover {
 
     @Override
     public void update() {
+        counterLabel.setText(game.poussins.displayCounter());
         repaint();
     }
 
