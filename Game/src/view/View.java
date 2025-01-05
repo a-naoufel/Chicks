@@ -19,13 +19,6 @@ import javax.swing.JPanel;
 
 import game.Game;
 import poussin.Poussin;
-import poussin.state.BloqueurState;
-import poussin.state.BombeurState;
-import poussin.state.CharpentierState;
-import poussin.state.ForeurState;
-import poussin.state.GrimpeurState;
-import poussin.state.NormalState;
-import poussin.state.PoussinState;
 import terrain.blockes.Cell;
 
 
@@ -145,36 +138,15 @@ public class View extends JComponent implements IObsover {
                     
     
                 Poussin clickedPoussin = game.getPoussinClicked(gridX, gridY);
-                if (clickedPoussin != null) {
-                    PoussinState state;
-                    switch (selectedState) {
-                        case "Bombeur":
-                         state = new BombeurState(clickedPoussin);
-                            break;
-                        case "Bloquer":
-                        state = new BloqueurState(clickedPoussin);
-                            break;
-                        case "Charpentier":
-                        state = new CharpentierState(clickedPoussin);
-                            break;
-                        case "Foureur":
-                        state = new ForeurState(clickedPoussin);
-                            break;
-                        case "Grimpeur":
-                        state = new GrimpeurState(clickedPoussin);
-                            break;
-                        default:
-                        state= new NormalState(clickedPoussin);
-                            break;
-                    }
-                    clickedPoussin.setState(state);
-                    
+                if (clickedPoussin!=null){
+                    clickedPoussin.changeState(clickedPoussin, selectedState);
                 }
+               
                 }
             
         });
     
-            frame.pack(); // Adjust component sizes
+            frame.pack(); 
             frame.setVisible(true);
 
 

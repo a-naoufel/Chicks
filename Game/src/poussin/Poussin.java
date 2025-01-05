@@ -3,6 +3,11 @@ package poussin;
 import java.awt.Graphics;
 
 import game.Game;
+import poussin.state.BloqueurState;
+import poussin.state.BombeurState;
+import poussin.state.CharpentierState;
+import poussin.state.ForeurState;
+import poussin.state.GrimpeurState;
 import poussin.state.NormalState;
 import poussin.state.PoussinState;
 import terrain.Terrain;
@@ -179,6 +184,36 @@ public class Poussin {
         g.fillOval(width * getX() / terrain.gridSizeX(), height * getY() / terrain.gridSizeY(), 20, 20);
         g.fillOval(width * getX() / terrain.gridSizeX() + 3, height * getY() / terrain.gridSizeY() - 14, 15, 15);
         g.fillPolygon(XPoints, Ypoints, 3);
+    }
+
+
+    public void changeState( Poussin poussin, String stringState){
+         if (poussin != null) {
+                    PoussinState state;
+                    switch (stringState) {
+                        case "Bombeur":
+                         state = new BombeurState(poussin);
+                            break;
+                        case "Bloquer":
+                        state = new BloqueurState(poussin);
+                            break;
+                        case "Charpentier":
+                        state = new CharpentierState(poussin);
+                            break;
+                        case "Foureur":
+                        state = new ForeurState(poussin);
+                            break;
+                        case "Grimpeur":
+                        state = new GrimpeurState(poussin);
+                            break;
+                        default:
+                        state= new NormalState(poussin);
+                            break;
+                    }
+                    poussin.setState(state);
+                    
+                }
+                
     }
     public class Move {
     
