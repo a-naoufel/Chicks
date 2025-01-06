@@ -12,7 +12,6 @@ public class AddPoussins extends Thread{
     @Override
     public void run(){
         for (int i = 0; i < game.getNumTotal(); i++) {
-            System.out.println("add " + i);
             game.addPoussin(new Poussin(i,game));
             game.mysleep(delay);
         }

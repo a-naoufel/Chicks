@@ -19,7 +19,6 @@ public class GrimpeurState extends PoussinState {
             poussin.moveup();
             if (poussin.canStepAHead()) {
                 poussin.goAHead();
-                // poussin.fall();
             }
         } else {
             super.move();

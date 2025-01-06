@@ -13,7 +13,6 @@ public class keysBoard extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("actionPerformed key presssed ");
         char keyChar = Character.toUpperCase(e.getKeyChar());
         String selectedState = selectState(keyChar);
         view.getControls().aplyState(selectedState);

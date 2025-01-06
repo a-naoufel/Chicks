@@ -10,7 +10,7 @@ public class ObstacleSquare extends Cell {
     }
     public ObstacleSquare(){
         super();
-        color = Color.BLACK;
+        color = new Color(92, 51, 23);
     }
     @Override
     public void handale(Poussin p) {

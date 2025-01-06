@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import controle.StateControls;
-import controle.keysBoard;
 
 public class StateButton extends JButton{
     public StateButton(String state,String key,StateControls controls){
@@ -32,7 +31,6 @@ class Action implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e1) {
         controls. aplyState(state2);
-        System.out.println("action p + " + controls.keysBoard);
     }
 
 }

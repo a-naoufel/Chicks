@@ -18,16 +18,13 @@ public class StateControls {
 
     public void setView(View view) {
         this.view = view;
-        keysBoard = new keysBoard(view);
-        view.addKeyListener(keysBoard);
-        System.out.println("action  + " + keysBoard);
+        view.addKeyListener(new keysBoard(view));
         view.addMouseListener(new MouseControls(view));
         
     }
 
     public void aplyState(String selectedState) {
 
-        System.out.println("aply " + selectedState);
         Poussin selectedPoussin = view.getSelectedPoussin();
         if (selectedPoussin != null) {
             PoussinState state;
@@ -66,8 +63,6 @@ public class StateControls {
                     break;
             }
         }
-        view.addKeyListener(keysBoard);
-
 
     }
 
