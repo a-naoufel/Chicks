@@ -41,7 +41,6 @@ public class View extends JComponent implements IObsover {
         instructionPanel.add(counterLabel);
         frame.add(instructionPanel, BorderLayout.SOUTH);
         instructionPanel.addKeyListener(new keysBoard(this));
-        // addMouseListener(new MouseControls(this));
         
         frame.setVisible(true);
 

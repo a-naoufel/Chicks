@@ -26,6 +26,7 @@ public class Game implements IObsovable {
         terrain = new Terrain();
         poussins = new Poussins();
         obsovers = new ArrayList<>();
+
     }
 
     public void incNumExit() {
@@ -55,9 +56,9 @@ public class Game implements IObsovable {
     }
 
     public void end() {
-        View view = (View) obsovers.get(0);
+        // View view = (View) obsovers.get(0);
         System.out.println("La Fin");
-        view.frame.setVisible(false);
+        // view.frame.setVisible(false);
     }
 
     public void updateGame() {

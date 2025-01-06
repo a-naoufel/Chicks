@@ -6,7 +6,7 @@ public class States {
                         "Bombeur",
                         "Bloqueur",
                         "Charpentier",
-                        "Foreur",
+                        "Foureur",
                         "Grimpeur",
                         "Parachutist",
                         "Tunnelier" };

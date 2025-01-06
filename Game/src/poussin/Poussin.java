@@ -83,7 +83,6 @@ public class Poussin {
     }
 
     public void kill() {
-        System.out.println("kill");
         if (isAlive) {
             currentState.exit();
             game.kill(this);
