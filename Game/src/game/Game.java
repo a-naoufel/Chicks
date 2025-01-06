@@ -57,8 +57,9 @@ public class Game implements IObsovable {
     public void end() {
         View view = (View) obsovers.get(0);
         System.out.println("La Fin");
-        view.frame.setVisible(false);
-    }
+
+        view.showEndPanel();
+        }
 
     public void updateGame() {
         poussins.updateAll();

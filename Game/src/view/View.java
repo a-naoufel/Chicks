@@ -30,6 +30,8 @@ public class View extends JComponent implements IObsover {
     private String selectedState="Normal";
     private int ofSet = 100;
     private JLabel counterLabel; 
+    private JPanel endPanel;
+
 
     
     
@@ -91,6 +93,8 @@ public class View extends JComponent implements IObsover {
             
 
             frame.add(instructionPanel, BorderLayout.SOUTH);
+
+
             
                     
             
@@ -145,12 +149,34 @@ public class View extends JComponent implements IObsover {
                 }
             
         });
-    
+
             frame.pack(); 
             frame.setVisible(true);
-
-
             game.addObserver(this);
+        }
+
+        public void showEndPanel() {
+            // Supprimer tous les composants existants
+                frame.getContentPane().removeAll();
+
+                // Configurer le panneau de fin
+                JPanel endPanel = new JPanel();
+                endPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+                endPanel.setBackground(Color.BLACK);
+
+                JLabel endLabel = new JLabel("La partie est terminée !");
+                endLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
+                endLabel.setForeground(Color.WHITE);
+                endPanel.add(endLabel);
+
+                
+
+                // Ajouter le panneau de fin au frame
+                frame.add(endPanel, BorderLayout.CENTER);
+
+                // Rafraîchir l'affichage
+                frame.revalidate();
+                frame.repaint();
         }
         
 
