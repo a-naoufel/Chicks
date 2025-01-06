@@ -31,7 +31,6 @@ public class TunnelierState extends PoussinState {
 
     @Override
     public void exit() {
-        poussin.setState(new NormalState(poussin));
     }
 
 }

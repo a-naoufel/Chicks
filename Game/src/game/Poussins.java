@@ -12,18 +12,17 @@ public class Poussins {
     public int numTotal = 4;
     public ArrayList<Poussin> poussins;
 
-    public Poussins(){
+    public Poussins() {
         poussins = new ArrayList<>();
     }
-    public void incNumExit(){
-        exits ++;
+
+    public void incNumExit() {
+        exits++;
     }
 
     public String displayCounter() {
-        String counter="Poussin entrer: " + inStage +"\n" + " Poussin sortie: " + exits + "\n"+ " Poussin mort: " + deads + "\n";
-        // System.out.println("Poussin entrer: " + inStage);
-        // System.out.println("Poussin sortie: " + exits);
-        // System.out.println("Poussin mort: " + deads + "\n");
+        String counter = "Poussin entrer: " + inStage + "\n" + " Poussin sortie: " + exits + "\n" + " Poussin mort: "
+                + deads + "\n";
         return counter;
     }
 
@@ -41,12 +40,14 @@ public class Poussins {
         deads++;
         System.out.println(displayCounter());
     }
-    public void drawAll(View view){
+
+    public void drawAll(View view) {
         for (Poussin poussin : poussins) {
             poussin.draw(view);
         }
     }
-    public void updateAll(){
+
+    public void updateAll() {
         for (Poussin poussin : poussins) {
             poussin.move();
         }

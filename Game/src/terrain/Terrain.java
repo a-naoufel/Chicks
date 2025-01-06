@@ -46,7 +46,7 @@ public class Terrain implements Serializable {
 
     public Cell getCell(int i, int j) {
         if (outOfBoundsX(i) || outOfBoundsY(j))
-            return new LavaSquare(0, 0);
+            return new LavaSquare(i, j);
         return grid[i][j];
     }
 

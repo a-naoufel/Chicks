@@ -2,198 +2,67 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
+import controle.MouseControls;
+import controle.StateControls;
+import controle.keysBoard;
 import game.Game;
 import poussin.Poussin;
-import poussin.state.BloqueurState;
-import poussin.state.BombeurState;
-import poussin.state.CharpentierState;
-import poussin.state.ForeurState;
-import poussin.state.GrimpeurState;
-import poussin.state.NormalState;
-import poussin.state.PoussinState;
 import terrain.blockes.Cell;
 
-
 public class View extends JComponent implements IObsover {
-    public JFrame frame;
+    public MyFrame frame;
     private Game game;
     private int ofSetY = 35;
-    private Graphics g ;
-    private String selectedState="Normal";
+    private Graphics g;
+    private Poussin selectedPoussin;
     private int ofSet = 100;
-    private JLabel counterLabel; 
+    private JLabel counterLabel;
+    private int pixelSize = 31;
+    private StateControls controls;
 
-    
-    
-    
-        public View(Game game) {
-            this.game = game;
-            frame = new JFrame("Penguins");
-            frame.setSize(1000 , 515 + ofSet);
-            frame.setResizable(false);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            this.setFocusable(true);
+    public View(Game game) {
+        this.game = game;
+        controls = new StateControls(this);
+        frame = new MyFrame("Penguins");
+        frame.reSize(gridSizeX(), gridSizeY());
+        frame.add(this, java.awt.BorderLayout.CENTER);
+        this.setFocusable(true);
 
+        InstructionPanal instructionPanel = new InstructionPanal();
+        counterLabel = new JLabel(game.poussins.displayCounter());
+        counterLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        instructionPanel.add(counterLabel);
 
-            frame.setLayout(new BorderLayout());
-            this.setPreferredSize(new Dimension(985, 515));
-            frame.add(this, java.awt.BorderLayout.CENTER);
-            //frame.setLayout(new BorderLayout());;
-            //frame.setContentPane(this);
-
-
-           
-
-
-            JPanel instructionPanel = new JPanel();
-            instructionPanel.setLayout(new FlowLayout(FlowLayout.CENTER)); // Align components to the left
-            instructionPanel.setPreferredSize(new Dimension(900, 60)); // Explicit dimensions
-
-            // Add icons with text
-            String[] states = {"Bombeur", "Bloqueur", "Charpentier", "Foreur", "Grimpeur", "Parachutist"};
-            String[] keys = {"B", "L", "M", "Y", "G", "P"};
-            String[] iconPaths = {"C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\bomb.jpg",
-                                    "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\block.jpg",
-                                "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\charp.jpg",
-                            "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\Foruer.jpg",
-                        "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\",
-                        "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\Parach.jpg"};
-                JLabel statesLabel =new JLabel("States: ");
-                instructionPanel.add(statesLabel);
-            for (int i = 0; i < states.length; i++) {
-                // Load and resize the icon
-                ImageIcon icon = new ImageIcon(iconPaths[i]);
-                Image img = icon.getImage();
-                Image scaledImg = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-                icon = new ImageIcon(scaledImg);
-
-                JLabel label = new JLabel(states[i] + " (Press " + keys[i] + ")");
-                label.setIcon(icon);
-                label.setHorizontalTextPosition(JLabel.RIGHT);
-                label.setVerticalTextPosition(JLabel.CENTER);
-
-                instructionPanel.add(label);
-
-                
-}
-                counterLabel= new JLabel( game.poussins.displayCounter());
-                counterLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
-                instructionPanel.add(counterLabel);
-
-            
-
-            frame.add(instructionPanel, BorderLayout.SOUTH);
-            
-                    
-            
-            this.addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyPressed(KeyEvent e) {
-                    char keyChar = e.getKeyChar();
-                    if (keyChar == 'b' || keyChar == 'B') {
-                        selectedState = "Bombeur"; 
-                        System.out.println("State changed to Bombeur");
-                    } else if (keyChar == 'l' || keyChar == 'L') {
-                        selectedState = "Bloquer"; 
-                        System.out.println("State changed to Bloqueur");
-                    }else if (keyChar == 'm' || keyChar == 'M') {
-                        selectedState = "Charpentier"; 
-                        System.out.println("State changed to Charpentier");
-                    }else if (keyChar == 'y' || keyChar == 'Y') {
-                        selectedState = "Foureur"; 
-                        System.out.println("State changed to Foureur");
-                    }else if (keyChar == 'g' || keyChar == 'G') {
-                        selectedState = "Grimpeur"; 
-                        System.out.println("State changed to Grimpeur");
-                    }
-                    else if (keyChar == 'p' || keyChar == 'P') {
-                        selectedState = "Parachutist"; 
-                        System.out.println("State changed to Parachutist");
-                    }
-                    
-                    
-                    
-                }
-            });
-    
-    
-            this.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(java.awt.event.MouseEvent e) {
-                    super.mouseClicked(e);
-                    int x = e.getX();
-                    int y = e.getY();
-                    
-    
-                    int gridX = x * game.getTerrain().gridSizeX() / getWidth();
-                    int gridY = y * game.getTerrain().gridSizeY() / getHeight();
-                    
-    
-                Poussin clickedPoussin = game.getPoussinClicked(gridX, gridY);
-                if (clickedPoussin != null) {
-                    PoussinState state;
-                    switch (selectedState) {
-                        case "Bombeur":
-                         state = new BombeurState(clickedPoussin);
-                            break;
-                        case "Bloquer":
-                        state = new BloqueurState(clickedPoussin);
-                            break;
-                        case "Charpentier":
-                        state = new CharpentierState(clickedPoussin);
-                            break;
-                        case "Foureur":
-                        state = new ForeurState(clickedPoussin);
-                            break;
-                        case "Grimpeur":
-                        state = new GrimpeurState(clickedPoussin);
-                            break;
-                        default:
-                        state= new NormalState(clickedPoussin);
-                            break;
-                    }
-                    clickedPoussin.setState(state);
-                    
-                }
-                }
-            
-        });
-    
-            frame.pack(); // Adjust component sizes
-            frame.setVisible(true);
-
-
-            game.addObserver(this);
-        }
+        frame.add(instructionPanel, BorderLayout.SOUTH);
+        addKeyListener(new keysBoard(controls));
+        addMouseListener(new MouseControls(this));
         
+        frame.setVisible(true);
 
-        
+        game.addObserver(this);
+    }
+
+    public Poussin getSelectedPoussin() {
+        return selectedPoussin;
+    }
+
     
-        public Graphics getGraphics(){
-            return g;
-        }
-    
-        public int getHeight() {
-            return frame.getHeight() - ofSetY - ofSet;
-        }
-    
-        public int getWidth() {
-            return frame.getWidth();
+    public void selectPoussin(Poussin poussin) {
+        selectedPoussin = poussin;
+        controls.selectPoussin(poussin);
+    }
+
+    public int getHeight() {
+        return frame.getHeight() - ofSetY - ofSet;
+    }
+
+    public int getWidth() {
+        return frame.getWidth();
     }
 
     public int gridSizeX() {
@@ -204,35 +73,93 @@ public class View extends JComponent implements IObsover {
         return game.getTerrain().gridSizeY();
     }
 
+    public void setColor(Color c) {
+        g.setColor(c);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         this.g = g;
         super.paintComponent(g);
         game.draw(this);
-
-        
+        frame(selectedPoussin);
 
     }
 
     public void drawTrangle(Cell c) {
         int X = getWidth() * c.getX() / gridSizeX();
-        int Y = getHeight() * (c.getY()- 1) / gridSizeY();
-        int[] Xs = { X, X + 20, X + 10 };
-        int[] Ys = { Y, Y, Y - 20 };
+        int Y = getHeight() * (c.getY() - 1) / gridSizeY();
+        int[] Xs = { X, X + pixelSize, X + pixelSize / 2 };
+        int[] Ys = { Y, Y, Y - pixelSize };
         g.fillPolygon(Xs, Ys, 3);
     }
 
     public void drawSquare(Cell c) {
-        g.fillRect(getWidth() * c.getX() / gridSizeX(), getHeight() * c.getY() / gridSizeY(), c.getSize(), c.getSize());
+        g.fillRect(getWidth() * c.getX() / gridSizeX(), getHeight() * c.getY() / gridSizeY(), pixelSize, pixelSize);
     }
-    public void setColor(Color c){
-        g.setColor(c);
+
+    public void drawBaddy(int x, int y) {
+        g.fillOval(getWidth() * x / gridSizeX(), getHeight() * y / gridSizeY(), pixelSize, pixelSize);
+    }
+
+    public void drawHead(int x, int y, int direction) {
+        int headSize = pixelSize * 3 / 4;
+        g.fillOval(getWidth() * x / gridSizeX() + pixelSize / 5,
+                getHeight() * y / gridSizeY() - headSize + 1, headSize, headSize);
+        drawPic(x, y, direction);
+        drawEye(x, y, direction);
+
+    }
+
+    private void drawEye(int x, int y, int direction) {
+        setColor(Color.BLACK);
+        int headSize = pixelSize * 3 / 4;
+        g.fillOval(getWidth() * x / gridSizeX() + ((3 + direction) * pixelSize / 6),
+                getHeight() * y / gridSizeY() - 2 * headSize / 3, headSize / 4, headSize / 4);
+
+    }
+
+    private void drawPic(int x, int y, int direction) {
+        int picLength = pixelSize * 3 / 4;
+
+        int x1 = (getWidth() * x / gridSizeX()) + pixelSize / 2;
+        int x3 = (getWidth() * x / gridSizeX()) + pixelSize / 2 + direction * picLength;
+        int y1 = (getHeight() * y / gridSizeY()) - pixelSize + picLength;
+
+        int[] XPoints = { x1, x1, x3 };
+        int[] Ypoints = { y1 - pixelSize / 4, y1 + pixelSize / 4, y1 };
+        g.fillPolygon(XPoints, Ypoints, 3);
+
+    }
+
+    public void frame(Poussin poussin) {
+        if (selectedPoussin == null)
+            return;
+        if (!selectedPoussin.isAlive())
+            return;
+
+        int x1 = (getWidth() * poussin.getX() / gridSizeX());
+        int x3 = x1 + pixelSize + 2;
+        int y1 = (getHeight() * poussin.getY() / gridSizeY()) - pixelSize;
+        int y2 = (getHeight() * poussin.getY() / gridSizeY()) + pixelSize;
+
+        int[] XPoints = { x1, x1, x3, x3 };
+        int[] Ypoints = { y1, y2, y2, y1 };
+        g.drawPolygon(XPoints, Ypoints, 4);
     }
 
     @Override
     public void update() {
         counterLabel.setText(game.poussins.displayCounter());
         repaint();
+    }
+
+    public Poussin getPoussinClicked(int x, int y) {
+        return game.getPoussinClicked(x, y);
+    }
+
+    public StateControls getControls() {
+       return controls;
     }
 
 }

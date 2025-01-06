@@ -16,16 +16,18 @@ public class GrimpeurState extends PoussinState {
         poussin.inCell();
         if (canClimb()) {
             poussin.moveup();
-        } else {
+        } else if(poussin.canStepAHead()){
+            poussin.goAHead(); 
             poussin.fall(); 
+        }else{
+            poussin.changeDirction();
         }
 
-        poussin.goAHead(); 
     }
 
     private boolean canClimb() {
-        return poussin.isAlive() 
-            && poussin.getRelativCell(0, -1) instanceof EmptySquare 
+
+        return poussin.getRelativCell(0, -1) instanceof EmptySquare 
             && poussin.getRelativCell(poussin.getDirection(), 0) instanceof ObstacleSquare;
     }
 
@@ -35,6 +37,6 @@ public class GrimpeurState extends PoussinState {
 
     @Override
     public Color getColor() {
-        return Color.GREEN; 
+        return Color.MAGENTA; 
     }
 }

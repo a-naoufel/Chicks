@@ -34,10 +34,10 @@ public class Game implements IObsovable {
 
     public void run() {
         initialGame();
-        updateGame();
+        // updateGame();
         do {
             updateGame();
-            mysleep(300);
+            mysleep(500);
         } while (!poussins.endGame());
         end();
     }
@@ -157,7 +157,7 @@ public class Game implements IObsovable {
             if (poussin.getX() == x && poussin.getY() == y) {
                 return poussin;
             }
-            if (poussin.getX() == x && poussin.getY() == y + 1) {
+            if (poussin.getX() == x && poussin.getY() == y +1) {
                 return poussin;
             }
         }

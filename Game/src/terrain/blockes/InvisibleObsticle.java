@@ -1,7 +1,7 @@
 package terrain.blockes;
 import java.awt.Color;
 
-public class InvisibleObsticle extends ObstacleIndestructibleSimple{
+public class InvisibleObsticle extends ObstacleSquare{
     public InvisibleObsticle(int i,int j){
         super(i, j);
         color = Color.BLUE;

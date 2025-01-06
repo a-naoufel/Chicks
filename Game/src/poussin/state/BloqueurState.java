@@ -1,4 +1,5 @@
 package poussin.state;
+
 import java.awt.Color;
 
 import poussin.Poussin;
@@ -13,8 +14,11 @@ public class BloqueurState extends PoussinState {
     }
 
     private void bloqueWay() {
-        poussin.setRelativeCell(0, 0, new InvisibleObsticle());
-        poussin.setRelativeCell(0, -1, new InvisibleObsticle());
+        poussin.inCell();
+        if (poussin.isAlive()) {
+            poussin.setRelativeCell(0, 0, new InvisibleObsticle());
+            poussin.setRelativeCell(0, -1, new InvisibleObsticle());
+        }
     }
 
     @Override
@@ -24,12 +28,15 @@ public class BloqueurState extends PoussinState {
 
     @Override
     public void move() {
+        poussin.inCell();
+        if (poussin.isAlive())
+            bloqueWay();
+
     }
 
     @Override
     public void exit() {
         poussin.setRelativeCell(0, 0, new EmptySquare());
         poussin.setRelativeCell(0, -1, new EmptySquare());
-        poussin.setState(new NormalState(poussin));
     }
 }

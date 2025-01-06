@@ -1,7 +1,5 @@
 package poussin;
 
-import java.awt.Graphics;
-
 import game.Game;
 import poussin.state.NormalState;
 import poussin.state.PoussinState;
@@ -49,7 +47,11 @@ public class Poussin {
     }
 
     public void setState(PoussinState state) {
+        if (state == null)
+            return;
+        
         state.setPoussin(this);
+        currentState.exit();
         this.currentState = state;
     }
 
@@ -70,7 +72,9 @@ public class Poussin {
     }
 
     public void goAHead() {
-        if (canStepAHead() && fallcoun == 0) {
+        if (terrain.outOfBoundsX(x + direction))
+            changeDirction();
+        else if (canStepAHead() && fallcoun == 0) {
             x += direction;
         } else {
             if (fallcoun == 0)
@@ -83,6 +87,8 @@ public class Poussin {
             currentState.exit();
             game.kill(this);
             isAlive = false;
+            x = -1;
+            y = -1;
         }
     }
 
@@ -138,50 +144,40 @@ public class Poussin {
 
     public void hitExit() {
 
+        isAlive = false;
+        x = -1;
+        y = -1;
         System.out.println("poussin id " + id + " hit the exit");
         game.incNumExit();
-        isAlive = false;
 
     }
 
     public void move() {
         if (isAlive)
             currentState.move();
-        // if (System.currentTimeMillis() >= stateChangeTime) {
-        //     setState(new BombeurState(this));
-        //     stateChangeTime = System.currentTimeMillis() + delay;
-        // }
         game.notifyObservers(); // Update view after all moves
-
 
     }
 
     public void draw(View view) {
-        if (isAlive) 
+        if (isAlive)
             drawPoussin(view);
-        
 
     }
-    
-    private void drawPoussin(View view){
-        Graphics g = view.getGraphics();
-        int width = view.getWidth();
-        int height = view.getHeight();
 
-        int x1 = (width * getX() / terrain.gridSizeX()) + 10;
-        int x3 = (width * getX() / terrain.gridSizeX()) + 10 + getDirection() * 12;
-        int y1 = (height * getY() / terrain.gridSizeY()) - 8;
+    private void drawPoussin(View view) {
 
-        int[] XPoints = { x1, x1, x3 };
-        int[] Ypoints = { y1 - 5, y1 + 5, y1 };
-
-        g.setColor(currentState.getColor());
-        g.fillOval(width * getX() / terrain.gridSizeX(), height * getY() / terrain.gridSizeY(), 20, 20);
-        g.fillOval(width * getX() / terrain.gridSizeX() + 3, height * getY() / terrain.gridSizeY() - 14, 15, 15);
-        g.fillPolygon(XPoints, Ypoints, 3);
+        view.setColor(currentState.getColor());
+        view.drawBaddy(getX(), getY());
+        // g.fillOval(width * getX() / terrain.gridSizeX(), height * getY() /
+        // terrain.gridSizeY(), 20, 20);
+        view.drawHead(getX(), getY(), getDirection());
+        // g.fillOval(width * getX() / terrain.gridSizeX() + 3, height * getY() /
+        // terrain.gridSizeY() - 15, 15, 15);
+        // g.fillPolygon(XPoints, Ypoints, 3);
     }
+
     public class Move {
-    
-        
+
     }
 }

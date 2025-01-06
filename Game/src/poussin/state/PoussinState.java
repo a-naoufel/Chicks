@@ -26,7 +26,7 @@ public abstract class PoussinState {
     public abstract Color getColor();
 
     public void destroyRelativeCell(int i, int j) {
-        if (!(poussin.getRelativCell(i, j) instanceof ObstacleIndestructible))
+        if (poussin.getRelativCell(i, j) instanceof ObstacleSquare)
             poussin.setRelativeCell(i, j, new EmptySquare());
     }
 

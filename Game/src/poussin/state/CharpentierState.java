@@ -1,11 +1,13 @@
 package poussin.state;
+
 import java.awt.Color;
 
 import poussin.Poussin;
 
 public class CharpentierState extends PoussinState {
     private int steps;
-    public CharpentierState(Poussin poussin){
+
+    public CharpentierState(Poussin poussin) {
         super(poussin);
         steps = 5;
     }
@@ -23,10 +25,12 @@ public class CharpentierState extends PoussinState {
 
             steps--;
         } else {
-            exit();
+            poussin.setState(new NormalState(poussin));
+
         }
     }
-    private void build(){
+
+    private void build() {
         if (!poussin.canFall() && poussin.fallcoun == 0) {
             buildRelativeCell(poussin.getDirection(), 0);
         }
@@ -39,7 +43,6 @@ public class CharpentierState extends PoussinState {
 
     @Override
     public void exit() {
-       poussin.setState(new NormalState(poussin));
     }
 
 }
