@@ -11,7 +11,7 @@ public class TunnelierState extends PoussinState {
 
     @Override
     public Color getColor() {
-        return Color.DARK_GRAY;
+        return Color.CYAN;
     }
 
     @Override

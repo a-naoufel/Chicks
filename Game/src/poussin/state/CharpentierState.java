@@ -21,7 +21,7 @@ public class CharpentierState extends PoussinState {
             poussin.fall();
             build();
             poussin.takeSters();
-            poussin.goAHead();
+            // poussin.goAHead();
 
             steps--;
         } else {

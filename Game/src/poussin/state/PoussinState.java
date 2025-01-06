@@ -1,4 +1,5 @@
 package poussin.state;
+
 import java.awt.Color;
 
 import poussin.Poussin;
@@ -17,8 +18,10 @@ public abstract class PoussinState {
     public void move() {
         poussin.inCell();
         poussin.fall();
-        poussin.takeSters();
-        poussin.goAHead();
+        if (poussin.stears())
+            poussin.takeSters();
+        else if (!poussin.canFall())
+            poussin.goAHead();
     }
 
     public abstract void exit();
@@ -45,10 +48,11 @@ public abstract class PoussinState {
             poussin.setRelativeCell(i, j, new EmptySquare());
 
     }
-    public void Explosenext(int i,int j){
+
+    public void Explosenext(int i, int j) {
         if (!(poussin.getRelativCell(i, j) instanceof ObstacleIndestructible)) {
-            ExploseRelativeCell(2*i, j*2);
-    }
+            ExploseRelativeCell(2 * i, j * 2);
+        }
     }
 
     public void setPoussin(Poussin poussin) {

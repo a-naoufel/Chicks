@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-import controle.MouseControls;
 import controle.StateControls;
 import controle.keysBoard;
 import game.Game;
@@ -25,22 +24,24 @@ public class View extends JComponent implements IObsover {
     private int pixelSize = 31;
     private StateControls controls;
 
-    public View(Game game) {
+    public View(Game game,StateControls controls) {
         this.game = game;
-        controls = new StateControls(this);
-        frame = new MyFrame("Penguins");
+        this.controls = controls;
+        frame = new MyFrame(this);
         frame.reSize(gridSizeX(), gridSizeY());
         frame.add(this, java.awt.BorderLayout.CENTER);
+        controls.setView(this);
         this.setFocusable(true);
 
-        InstructionPanal instructionPanel = new InstructionPanal();
+        InstructionPanal instructionPanel = new InstructionPanal(this);
+        instructionPanel.addKeyListener(new keysBoard(this));
+
         counterLabel = new JLabel(game.poussins.displayCounter());
         counterLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         instructionPanel.add(counterLabel);
-
         frame.add(instructionPanel, BorderLayout.SOUTH);
-        addKeyListener(new keysBoard(controls));
-        addMouseListener(new MouseControls(this));
+        instructionPanel.addKeyListener(new keysBoard(this));
+        // addMouseListener(new MouseControls(this));
         
         frame.setVisible(true);
 
@@ -54,8 +55,8 @@ public class View extends JComponent implements IObsover {
     
     public void selectPoussin(Poussin poussin) {
         selectedPoussin = poussin;
-        controls.selectPoussin(poussin);
     }
+    
 
     public int getHeight() {
         return frame.getHeight() - ofSetY - ofSet;

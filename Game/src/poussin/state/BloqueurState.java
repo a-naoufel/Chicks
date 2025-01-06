@@ -16,6 +16,10 @@ public class BloqueurState extends PoussinState {
     private void bloqueWay() {
         poussin.inCell();
         if (poussin.isAlive()) {
+            if (poussin.canFall())
+                poussin.setRelativeCell(0, -1, new EmptySquare());
+
+            poussin.fall();
             poussin.setRelativeCell(0, 0, new InvisibleObsticle());
             poussin.setRelativeCell(0, -1, new InvisibleObsticle());
         }

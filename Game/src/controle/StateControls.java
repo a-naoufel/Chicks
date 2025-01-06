@@ -1,8 +1,5 @@
 package controle;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import poussin.Poussin;
 import poussin.state.BloqueurState;
 import poussin.state.BombeurState;
@@ -10,31 +7,28 @@ import poussin.state.CharpentierState;
 import poussin.state.ForeurState;
 import poussin.state.GrimpeurState;
 import poussin.state.NormalState;
+import poussin.state.ParachutistState;
 import poussin.state.PoussinState;
+import poussin.state.TunnelierState;
 import view.View;
 
 public class StateControls {
-    private Poussin selectedPoussin;
     private View view;
-    private static StateControls stateControls;
-    public StateControls(View view){
-        this.view =view;
-        selectedPoussin = view.getSelectedPoussin();
-        stateControls = this;
-    }
+    public keysBoard keysBoard;
 
-    public void selectPoussin(Poussin poussin){
-        this.selectedPoussin = poussin;
-    }
-
-    public static Action newAction(String state){
-        System.out.println("actionnew ");
-
-        return stateControls.new Action(state);
+    public void setView(View view) {
+        this.view = view;
+        keysBoard = new keysBoard(view);
+        view.addKeyListener(keysBoard);
+        System.out.println("action  + " + keysBoard);
+        view.addMouseListener(new MouseControls(view));
+        
     }
 
     public void aplyState(String selectedState) {
-        // view.aplyState(selectedState);
+
+        System.out.println("aply " + selectedState);
+        Poussin selectedPoussin = view.getSelectedPoussin();
         if (selectedPoussin != null) {
             PoussinState state;
             switch (selectedState) {
@@ -58,8 +52,12 @@ public class StateControls {
                     state = new GrimpeurState(selectedPoussin);
                     selectedPoussin.setState(state);
                     break;
+                case "Parachutist":
+                    state = new ParachutistState(selectedPoussin);
+                    selectedPoussin.setState(state);
+                    break;
                 case "Tunnelier":
-                    state = new GrimpeurState(selectedPoussin);
+                    state = new TunnelierState(selectedPoussin);
                     selectedPoussin.setState(state);
                     break;
                 case "Normal":
@@ -68,20 +66,9 @@ public class StateControls {
                     break;
             }
         }
+        view.addKeyListener(keysBoard);
+
 
     }
 
-    public class Action implements ActionListener {
-        private String state2;
-
-        public Action(String state1) {
-            state2 = state1;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e1) {
-            aplyState(state2);
-        }
-
-    }
 }

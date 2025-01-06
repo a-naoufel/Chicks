@@ -16,11 +16,13 @@ public class ParachutistState extends PoussinState {
 
         if (fallSpeed == 0) {
             poussin.fall();
+            poussin.setFallCount(0);
         }
         fallSpeed = (fallSpeed + 1) % 2; 
-
-        poussin.moveup();
-        poussin.goAHead();
+        if (poussin.stears())
+            poussin.takeSters();
+        else if (!poussin.canFall())
+            poussin.goAHead();
     }
 
     @Override
@@ -29,6 +31,6 @@ public class ParachutistState extends PoussinState {
 
     @Override
     public Color getColor() {
-        return Color.BLUE; 
+        return Color.ORANGE; 
     }
 }

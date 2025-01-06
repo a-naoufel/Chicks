@@ -11,12 +11,9 @@ public class MouseControls extends MouseAdapter {
     }
     @Override
     public void mouseClicked(java.awt.event.MouseEvent e) {
-        super.mouseClicked(e);
+        // super.mouseClicked(e);
         int x = e.getX() * view.gridSizeX() / view.getWidth();
-        
         int y = e.getY() * view.gridSizeY() / view.getHeight();
-
-
         view.selectPoussin(view.getPoussinClicked(x, y));
         view.update();
     }

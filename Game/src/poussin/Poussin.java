@@ -49,7 +49,7 @@ public class Poussin {
     public void setState(PoussinState state) {
         if (state == null)
             return;
-        
+
         state.setPoussin(this);
         currentState.exit();
         this.currentState = state;
@@ -83,6 +83,7 @@ public class Poussin {
     }
 
     public void kill() {
+        System.out.println("kill");
         if (isAlive) {
             currentState.exit();
             game.kill(this);
@@ -118,6 +119,10 @@ public class Poussin {
 
     }
 
+    public void setFallCount(int i) {
+        fallcoun = i;
+    }
+
     public boolean canFall() {
         return isAlive && !(getRelativCell(0, 1) instanceof ObstacleSquare);
     }
@@ -131,8 +136,10 @@ public class Poussin {
     }
 
     public void takeSters() {
-        if (stears())
+        if (stears()) {
             moveup();
+            x += direction;
+        }
     }
 
     public void inCell() {
@@ -169,12 +176,9 @@ public class Poussin {
 
         view.setColor(currentState.getColor());
         view.drawBaddy(getX(), getY());
-        // g.fillOval(width * getX() / terrain.gridSizeX(), height * getY() /
-        // terrain.gridSizeY(), 20, 20);
+
         view.drawHead(getX(), getY(), getDirection());
-        // g.fillOval(width * getX() / terrain.gridSizeX() + 3, height * getY() /
-        // terrain.gridSizeY() - 15, 15, 15);
-        // g.fillPolygon(XPoints, Ypoints, 3);
+
     }
 
     public class Move {

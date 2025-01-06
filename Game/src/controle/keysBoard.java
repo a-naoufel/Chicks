@@ -3,10 +3,12 @@ package controle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import view.View;
+
 public class keysBoard extends KeyAdapter {
-    private StateControls controls;
-    public keysBoard(StateControls controls){
-        this.controls = controls;
+    private View view;
+    public keysBoard(View view){
+        this.view = view;
     }
 
     @Override
@@ -14,11 +16,10 @@ public class keysBoard extends KeyAdapter {
         System.out.println("actionPerformed key presssed ");
         char keyChar = Character.toUpperCase(e.getKeyChar());
         String selectedState = selectState(keyChar);
-        controls.aplyState(selectedState);
+        view.getControls().aplyState(selectedState);
     }
 
     public String selectState(char keyChar) {
-        System.out.println("actionPerformed " + keyChar);
 
         switch (keyChar) {
             case 'B':
