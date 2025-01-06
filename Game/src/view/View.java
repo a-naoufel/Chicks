@@ -59,20 +59,18 @@ public class View extends JComponent implements IObsover {
             instructionPanel.setLayout(new FlowLayout(FlowLayout.CENTER)); // Align components to the left
             instructionPanel.setPreferredSize(new Dimension(900, 60)); // Explicit dimensions
 
-            // Add icons with text
             String[] states = {"Bombeur", "Bloqueur", "Charpentier", "Foreur", "Grimpeur", "Parachutist"};
             String[] keys = {"B", "L", "M", "Y", "G", "P"};
-            String[] iconPaths = {"C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\bomb.jpg",
-                                    "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\block.jpg",
-                                "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\charp.jpg",
-                            "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\Foruer.jpg",
-                        "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\",
-                        "C:\\Users\\CHAKER YOUSFI\\Desktop\\UPEC L3\\S1\\ConceptionEtProgrammationOrienteeObjet\\Penguins\\javaGame\\Game\\src\\view\\Parach.jpg"};
+            String[] iconPaths = {"/view/resources/bomb.jpg",
+                                    "/view/resources/block.jpg",
+                                "/view/resources/charp.jpg",
+                            "/view/resources/foreur.png",
+                        "/view/resources/Grimp.jpg",
+                        "/view/resources/Parach.jpg"};
                 JLabel statesLabel =new JLabel("States: ");
                 instructionPanel.add(statesLabel);
             for (int i = 0; i < states.length; i++) {
-                // Load and resize the icon
-                ImageIcon icon = new ImageIcon(iconPaths[i]);
+                ImageIcon icon = new ImageIcon(getClass().getResource(iconPaths[i]));
                 Image img = icon.getImage();
                 Image scaledImg = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
                 icon = new ImageIcon(scaledImg);
@@ -156,10 +154,8 @@ public class View extends JComponent implements IObsover {
         }
 
         public void showEndPanel() {
-            // Supprimer tous les composants existants
                 frame.getContentPane().removeAll();
 
-                // Configurer le panneau de fin
                 JPanel endPanel = new JPanel();
                 endPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
                 endPanel.setBackground(Color.BLACK);
@@ -171,10 +167,8 @@ public class View extends JComponent implements IObsover {
 
                 
 
-                // Ajouter le panneau de fin au frame
                 frame.add(endPanel, BorderLayout.CENTER);
 
-                // Rafraîchir l'affichage
                 frame.revalidate();
                 frame.repaint();
         }
