@@ -45,7 +45,7 @@ public class InstructionPanal extends JPanel {
         // Load and resize the icon
         ImageIcon icon = new ImageIcon(States.path + iconPath);
         Image img = icon.getImage();
-        Image scaledImg = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        Image scaledImg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImg);
     }
 }

@@ -22,6 +22,8 @@ public abstract class PoussinState {
             poussin.takeSters();
         else if (!poussin.canFall())
             poussin.goAHead();
+        poussin.inCell();
+        
     }
 
     public abstract void exit();

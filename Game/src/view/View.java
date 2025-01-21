@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
@@ -76,6 +77,9 @@ public class View extends JComponent implements IObsover {
     public void setColor(Color c) {
         g.setColor(c);
     }
+    public void showEndPanel(String result) {
+                frame.showEndPanel(result);
+        }
 
     @Override
     protected void paintComponent(Graphics g) {
